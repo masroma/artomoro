@@ -8,7 +8,7 @@ const cart = {
 
     //state
     state: {
-    
+
         //cart
         cart: [],
 
@@ -48,11 +48,11 @@ const cart = {
 
             //get data token dan user
             const token = localStorage.getItem('token')
-            const user  = JSON.parse(localStorage.getItem('user'))
+            const user = JSON.parse(localStorage.getItem('user'))
 
             //set axios header dengan type Authorization + Bearer token
-            Api.defaults.headers.common['Authorization'] = "Bearer " +token
-            
+            Api.defaults.headers.common['Authorization'] = "Bearer " + token
+
             //send data cart ke server
             Api.post('/cart', {
                 product_id: product_id,
@@ -61,25 +61,73 @@ const cart = {
                 weight: weight,
                 customer_id: user.id
             })
-            .then(() => {
+                .then(() => {
 
-                //get dat cart
-                Api.get('/cart')
-                .then(response => {
-                    
-                    //commit mutation GET_CART
-                    commit('GET_CART', response.data.cart)
+                    //get dat cart
+                    Api.get('/cart')
+                        .then(response => {
+
+                            //commit mutation GET_CART
+                            commit('GET_CART', response.data.cart)
+
+                        })
+
+                    //get total cart
+                    Api.get('/cart/total')
+                        .then(response => {
+
+                            //commit mutation TOTAL_CART
+                            commit('TOTAL_CART', response.data.total)
+
+                        })
 
                 })
+        },
 
-                //get total cart
-                Api.get('/cart/total')
-                .then(response => {
-                    
-                    //commit mutation TOTAL_CART
-                    commit('TOTAL_CART', response.data.total)
+        update({ commit }, { cartId, payload }) {
 
-                })
+
+
+            //define callback promise
+            return new Promise((resolve, reject) => {
+
+                const token = localStorage.getItem('token')
+
+                //set axios header dengan type Authorization + Bearer token
+                Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+
+                Api.post(`/cart/update/${cartId}`, payload)
+
+                    .then(response => {
+
+                        Api.get('/cart')
+                            .then(response => {
+
+                                //commit mutation GET_CART
+                                commit('GET_CART', response.data.cart)
+
+                            })
+
+                        //get total cart
+                        Api.get('/cart/total')
+                            .then(response => {
+
+                                //commit mutation TOTAL_CART
+                                commit('TOTAL_CART', response.data.total)
+
+                            })
+
+                        // commit('')
+                        resolve(response)
+
+                    }).catch(error => {
+
+
+                        //reject ke component dengan hasil response
+                        reject(error.response.data)
+
+                    })
 
             })
         },
@@ -91,16 +139,16 @@ const cart = {
             const token = localStorage.getItem('token')
 
             //set axios header dengan type Authorization + Bearer token
-            Api.defaults.headers.common['Authorization'] = "Bearer " +token
+            Api.defaults.headers.common['Authorization'] = "Bearer " + token
 
             //get dat cart
             Api.get('/cart')
-            .then(response => {
-                
-                //commit mutation GET_CART
-                commit('GET_CART', response.data.cart)
+                .then(response => {
 
-            })
+                    //commit mutation GET_CART
+                    commit('GET_CART', response.data.cart)
+
+                })
 
         },
 
@@ -111,16 +159,16 @@ const cart = {
             const token = localStorage.getItem('token')
 
             //set axios header dengan type Authorization + Bearer token
-            Api.defaults.headers.common['Authorization'] = "Bearer " +token
+            Api.defaults.headers.common['Authorization'] = "Bearer " + token
 
             //get dat cart
             Api.get('/cart/total')
-            .then(response => {
-                
-                //commit mutation GET_CART
-                commit('TOTAL_CART', response.data.total)
+                .then(response => {
 
-            })
+                    //commit mutation GET_CART
+                    commit('TOTAL_CART', response.data.total)
+
+                })
 
         },
 
@@ -131,15 +179,57 @@ const cart = {
             const token = localStorage.getItem('token')
 
             //set axios header dengan type Authorization + Bearer token
-            Api.defaults.headers.common['Authorization'] = "Bearer " +token
+            Api.defaults.headers.common['Authorization'] = "Bearer " + token
 
             Api.get('/cart/totalWeight')
-            .then(response => {
-                
-                //commit mutation CART_WEIGHT
-                commit('CART_WEIGHT', response.data.total)
+                .then(response => {
 
+                    //commit mutation CART_WEIGHT
+                    commit('CART_WEIGHT', response.data.total)
+
+                })
+
+        },
+
+        removeCart({ commit }, cart_id) {
+
+            //get data token dan user
+            const token = localStorage.getItem('token')
+
+            //set axios header dengan type Authorization + Bearer token
+            Api.defaults.headers.common['Authorization'] = "Bearer " + token
+
+            Api.post('/cart/remove', {
+                cart_id: cart_id
             })
+                .then(() => {
+
+
+                    //get cart
+                    Api.get('/cart')
+                        .then(response => {
+
+                            commit('GET_CART', response.data.cart)
+
+                        })
+
+                    //get total cart
+                    Api.get('/cart/total')
+                        .then(response => {
+
+                            commit('TOTAL_CART', response.data.total)
+
+                        })
+
+                    //get total cart weight
+                    Api.get('/cart/totalWeight')
+                        .then(response => {
+
+                            commit('CART_WEIGHT', response.data.total)
+
+                        })
+
+                })
 
         },
 
@@ -153,7 +243,7 @@ const cart = {
         getCart(state) {
             return state.cart
         },
-        
+
         //count cart
         cartCount(state) {
             return state.cart.length

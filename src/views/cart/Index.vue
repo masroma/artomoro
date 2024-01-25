@@ -22,17 +22,17 @@
                                         {{ cart.product.title }}
                                     </p>
                                     <div class="flex gap-x-1">
-                                        <button class="bg-[#ff914d] font-semibold text-white rounded 
-                                    px-2 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                                viewBox="0 0 24 24">
+                                        <button @click="TambahQty(cart.id)" class="bg-[#ff914d] font-semibold text-white rounded 
+                                            px-2 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="18"
+                                                height="18" viewBox="0 0 24 24">
                                                 <path fill="white"
                                                     d="M18 10h-4V6a2 2 0 0 0-4 0l.071 4H6a2 2 0 0 0 0 4l4.071-.071L10 18a2 2 0 0 0 4 0v-4.071L18 14a2 2 0 0 0 0-4" />
                                             </svg></button>
                                         <input v-model="cart.quantity" type="number" min="1"
                                             class="appearance-none text-gray-500 text-center justify-center w-14 border-2 border-gray-300 rounded">
-                                        <button class="bg-[#ff914d] font-semibold text-white rounded 
-                                    px-2 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                                viewBox="0 0 24 24">
+                                        <button @click="KuranginQty(cart.id)" class="bg-[#ff914d] font-semibold text-white rounded 
+                                        px-2 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="18"
+                                                height="18" viewBox="0 0 24 24">
                                                 <path fill="white" d="M18 11H6a2 2 0 0 0 0 4h12a2 2 0 0 0 0-4" />
                                             </svg></button>
                                     </div>
@@ -42,13 +42,14 @@
                             <div class="flex gap-x-5">
                                 <div class="flex flex-col justify-center">
                                     <p class="text-xs text-gray-500">Qty {{ cart.quantity }} x Rp
-                                        {{ moneyFormat(cart.product.price) }}</p>
+                                        {{ moneyFormat(cart.product.price - (cart.product.price *(cart.product.discount)/100)) }}</p>
                                     <p class="text-lg text-gray-500 font-semibold">
-                                        Rp {{ moneyFormat(cart.product.price * cart.quantity) }}
+                                        
+                                        Rp {{ moneyFormat((cart.product.price - (cart.product.price *(cart.product.discount)/100)) * cart.quantity) }}
                                     </p>
                                 </div>
                                 <div class="flex flex-col justify-center">
-                                    <button class="bg-red-500 py-2 font-semibold text-white rounded 
+                                    <button @click="confirmDelete(cart.id)" class="bg-red-500 py-2 font-semibold text-white rounded 
                                 px-2 justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                                             <path fill="white"
@@ -81,6 +82,8 @@
 <script>
 import { onMounted, computed } from 'vue'
 import { useStore } from 'vuex' // <-- vuex
+import Swal from 'sweetalert2';
+import { useRouter } from "vue-router";
 
 export default {
 
@@ -90,6 +93,7 @@ export default {
 
         //store vuex
         const store = useStore()
+        const router = useRouter();
 
         //mounted cart
         onMounted(() => {
@@ -117,10 +121,139 @@ export default {
         })
 
 
+
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Apakah Anda yakin ingin menghapus data?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    store.dispatch('cart/removeCart', id)
+                        .then(() => {
+
+                            store.dispatch("cart/getCart");
+
+                            router.push({ name: "cart" });
+                            //alert
+                            Swal.fire({
+                                title: 'BERHASIL!',
+                                text: "Data Berhasil Dihapus!",
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 2000
+                            })
+
+
+
+                        })
+                }
+            });
+        }
+
+
+        const TambahQty = (itemId) => {
+            const cartItem = carts.value.find(item => item.id === itemId);
+         
+            // console.log(cartItem.product.price);
+            if (cartItem) {
+                cartItem.quantity += 1;
+                
+                const price = cartItem.quantity * (cartItem.product.price - (cartItem.product.price *(cartItem.product.discount)/100));
+                const weight = cartItem.quantity * cartItem.product.weight;
+
+
+                let formData = new FormData();
+                formData.append('quantity', cartItem.quantity)
+                formData.append('price',  price)
+                formData.append('weight',  weight)
+
+                formData.append("_method", "POST");
+
+                store
+                    .dispatch("cart/update", {
+                        cartId: itemId,
+                        payload: formData,
+                    })
+                    .then(() => {
+                        //redirect ke dashboard
+                        router.push({ name: "cart" });
+                        store.dispatch('cart/cartCount')  // <-- untuk memanggil action "cartCount" di module "cart"
+                        store.dispatch('cart/cartTotal')  // <-- untuk memanggil action "cartTotal" di module "cart"
+                        store.dispatch('cart/cartWeight')
+
+
+                        toast.success("Tambah data berhasil")
+                    })
+                    .catch((error) => {
+                        //show validaation message
+                        console.log(error);
+
+                       
+                    });
+            }
+
+
+
+        };
+
+        // Fungsi untuk mengurangkan kuantitas
+        const KuranginQty = (itemId) => {
+            const cartItem = carts.value.find(item => item.id === itemId);
+            if (cartItem && cartItem.quantity > 1) {
+                cartItem.quantity -= 1;
+                const price = cartItem.quantity * (cartItem.product.price - (cartItem.product.price *(cartItem.product.discount)/100));
+                const weight = cartItem.quantity * cartItem.product.weight;
+
+
+                let formData = new FormData();
+                formData.append('quantity', cartItem.quantity)
+                formData.append('price',  price)
+                formData.append('weight',  weight)
+
+                formData.append("_method", "POST");
+
+                store
+                    .dispatch("cart/update", {
+                        cartId: itemId,
+                        payload: formData,
+                    })
+                    .then(() => {
+                        //redirect ke dashboard
+                        router.push({ name: "cart" });
+                        store.dispatch('cart/cartCount')  // <-- untuk memanggil action "cartCount" di module "cart"
+                        store.dispatch('cart/cartTotal')  // <-- untuk memanggil action "cartTotal" di module "cart"
+                        store.dispatch('cart/cartWeight')
+
+
+                        toast.success("Tambah data berhasil")
+                    })
+                    .catch((error) => {
+                        //show validaation message
+                        console.log(error);
+
+                       
+                    });
+            } else if (cartItem && cartItem.quantity === 1) {
+                // Kuantitas mencapai 0, konfirmasi penghapusan
+                confirmDelete(itemId);
+            }
+        };
+
+
         return {
             carts,              // <-- state carts
             cartTotal,          // <-- state cartTotal
-            cartWeight,         // <-- state cartWeight
+            cartWeight,
+
+            confirmDelete,
+            TambahQty,
+            KuranginQty     // <-- state cartWeight
         }
 
     }
