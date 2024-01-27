@@ -42,6 +42,66 @@ const auth = {
     //actions
     actions: {
 
+        updateProfile({ commit }, formData) {
+         
+
+            //define callback promise
+            return new Promise((resolve, reject) => {
+
+                const token = localStorage.getItem('token')
+
+                //set axios header dengan type Authorization + Bearer token
+                Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+                Api.post('/updateprofile', formData)
+
+                    .then(response => {
+
+                        // console.log(response)
+                        commit('')
+                        resolve(response)
+
+                    }).catch(error => {
+
+
+                        //reject ke component dengan hasil response
+                        reject(error.response.data)
+
+                    })
+
+            })
+        },
+
+        updatePassword({ commit }, formData) {
+         
+
+            //define callback promise
+            return new Promise((resolve, reject) => {
+
+                const token = localStorage.getItem('token')
+
+                //set axios header dengan type Authorization + Bearer token
+                Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+                Api.post('/updatepassword', formData)
+
+                    .then(response => {
+
+                        // console.log('halo',response.data.token)
+                        commit('')
+                        resolve(response)
+
+                    }).catch(error => {
+
+
+                        //reject ke component dengan hasil response
+                        reject(error.response.data)
+
+                    })
+
+            })
+        },
+
         //action register
         register({ commit }, user) {
 

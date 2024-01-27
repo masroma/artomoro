@@ -37,6 +37,15 @@ const routes = [
         }
     },
     {
+      path: '/customer/order/detail/:id',
+      name: 'detail_order',
+      component: () => import( /* webpackChunkName: "login" */ '../views/order/Show.vue'),
+      //chek is loggedIn
+      meta: {
+          requiresAuth: true
+      }
+  },
+    {
         path: '/',
         name: 'home',
         component: () => import( /* webpackChunkName: "home" */ '../views/home/Index.vue')
@@ -67,7 +76,36 @@ const routes = [
           //chek is loggedIn
           requiresAuth: true
         }
-      }
+      },
+
+      {
+        path: '/checkout',
+        name: 'checkout',
+        component: () => import(/* webpackChunkName: "cart" */ '../views/pembayaran/Index.vue'),
+        meta: {
+          //chek is loggedIn
+          requiresAuth: true
+        }
+      },
+
+      {
+        path: '/update-profile',
+        name: 'update-profile',
+        component: () => import( /* webpackChunkName: "login" */ '../views/auth/UpdateProfile.vue'),
+        meta: {
+            requiresAuth: true
+        }
+    },
+
+    {
+        path: '/update-password',
+        name: 'update-password',
+        component: () => import( /* webpackChunkName: "login" */ '../views/auth/UpdatePassword.vue'),
+        meta: {
+            requiresAuth: true
+        }
+    },
+
 ]
 
 //create router

@@ -9,7 +9,10 @@
                 <router-link :to="{name: 'order' }">Order</router-link>
             </li>
             <li>
-                <router-link :to="{name: 'dashboard' }">Akun</router-link>
+                <router-link :to="{name: 'update-profile' }">Update Profile</router-link>
+            </li>
+            <li>
+                <router-link :to="{name: 'update-password' }">Update Password</router-link>
             </li>
             <li>
                 <a @click="logout" style="cursor:pointer" >Logout</a>

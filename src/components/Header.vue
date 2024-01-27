@@ -1,25 +1,17 @@
 <template>
     <div class="py-3">
         <div class="max-w-6xl mx-auto flex justify-between">
-            <p class="text-[12px] text-gray-500 font-semibold">Gratis Pengiriman (syarat & ketentuan berlaku)</p>
+            <p class="text-[12px] text-gray-500 font-semibold">Pengiriman dari Gunung Sindur, Kab.Bogor</p>
 
             <div class="flex gap-x-2">
-                <div class="flex  gap-x-2  px-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                        <path fill="#ff914d"
-                            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7m0 9.5a2.5 2.5 0 0 1 0-5a2.5 2.5 0 0 1 0 5" />
-                    </svg>
-
-                    <p class="text-[12px] text-gray-500 font-semibold">Pengiriman dari Bogor</p>
-
-                </div>
+              
                 <div class="flex gap-x-2 px-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                         <path fill="#ff914d"
                             d="m16.556 12.906l-.455.453s-1.083 1.076-4.038-1.862s-1.872-4.014-1.872-4.014l.286-.286c.707-.702.774-1.83.157-2.654L9.374 2.86C8.61 1.84 7.135 1.705 6.26 2.575l-1.57 1.56c-.433.432-.723.99-.688 1.61c.09 1.587.808 5 4.812 8.982c4.247 4.222 8.232 4.39 9.861 4.238c.516-.048.964-.31 1.325-.67l1.42-1.412c.96-.953.69-2.588-.538-3.255l-1.91-1.039c-.806-.437-1.787-.309-2.417.317" />
                     </svg>
 
-                    <p class="text-[12px] text-gray-500 font-semibold">0822 9999 5502</p>
+                    <a href="https://wa.me/6283890435839" target="_blank" class="text-[12px] text-gray-500 font-semibold">Kontak CS</a>
 
                 </div>
             </div>
@@ -78,14 +70,16 @@
 
 
             <div class="flex gap-x-2 items-center  ">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path fill="#ff914d"
-                        d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1m-9-1a2 2 0 0 1 4 0v1h-4Zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2Z" />
-                </svg>
+               
 
                 <router-link :to="{name: 'cart'}" v-if="cartCount != 0 && user.name" class="text-base text-gray-500 ">{{ cartCount }} | Rp. {{ moneyFormat(cartTotal) }}
                 </router-link>
-                <router-link :to="{name: 'cart'}" v-else class="text-base text-gray-500 ">Keranjang </router-link>
+                <router-link :to="{name: 'cart'}" v-else class="text-base text-gray-500 ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="#ff914d"
+                            d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1m-9-1a2 2 0 0 1 4 0v1h-4Zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2Z" />
+                    </svg>    
+                </router-link>
             </div>
 
 
@@ -128,6 +122,9 @@ export default {
             //get getter "cartTotal" dari module "auth"
             return store.getters['cart/cartTotal']
         })
+
+
+        
 
 
         //mounted

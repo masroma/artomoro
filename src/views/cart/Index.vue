@@ -9,8 +9,17 @@
                     <router-link class="text-sm text-[#ff914d]" :to="{ name: 'cart' }">Keranjang Belanja</router-link>
                 </div>
 
-                <div class="grid grid-cols-12 gap-4">
-                    <div class="flex flex-col gap-y-2 col-span-9">
+                <div class="grid grid-cols-12 gap-4" v-if="cartTotal == 0">
+                    <div class="flex flex-col gap-y-5 col-span-12 items-center text-center">
+                        <p class="text-lg text-gray-500">
+                            Belum Ada Produk Dikeranjang Belanja 
+                        </p>
+                        <router-link :to="{name:'home'}" class="bg-orange-500 text-sm text-white px-3 py-2 rounded">Mulai Belanja</router-link>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-12 gap-4" v-else>
+                    <div class="flex flex-col gap-y-2 col-span-8">
                         <div v-for="cart in carts" :key="cart.id"
                             class="flex gap-3 shadow-md border py-3 px-3 justify-between">
                             <div class="flex gap-x-3">
@@ -42,10 +51,12 @@
                             <div class="flex gap-x-5">
                                 <div class="flex flex-col justify-center">
                                     <p class="text-xs text-gray-500">Qty {{ cart.quantity }} x Rp
-                                        {{ moneyFormat(cart.product.price - (cart.product.price *(cart.product.discount)/100)) }}</p>
+                                        {{ moneyFormat(cart.product.price - (cart.product.price
+                                            * (cart.product.discount) / 100)) }}</p>
                                     <p class="text-lg text-gray-500 font-semibold">
-                                        
-                                        Rp {{ moneyFormat((cart.product.price - (cart.product.price *(cart.product.discount)/100)) * cart.quantity) }}
+
+                                        Rp {{ moneyFormat((cart.product.price - (cart.product.price
+                                            * (cart.product.discount) / 100)) * cart.quantity) }}
                                     </p>
                                 </div>
                                 <div class="flex flex-col justify-center">
@@ -60,16 +71,21 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col gap-2 col-span-3  shadow-md border py-3 px-3">
-                        <h5 class="text-gray-500 font-semibold">Rincian Belanja</h5>
-                        <div class="flex justify-between">
-                            <p class="font-semibold text-gray-500">Total Belanja</p>
-                            <p>Rp {{ moneyFormat(cartTotal) }}</p>
+                    <div class="flex flex-col gap-2 col-span-4 justify-between shadow-md border py-3 px-3 max-h-64">
+                        <div class="flex flex-col gap-y-2">
+                            <h5 class="text-gray-500 font-semibold">Rincian Belanja</h5>
+                            <div class="flex justify-between">
+                                <p class="font-semibold text-gray-500">Total Belanja</p>
+                                <p>Rp {{ moneyFormat(cartTotal) }}</p>
+                            </div>
+                            <div class="flex justify-between">
+                                <p class="font-semibold text-gray-500">Total Berat</p>
+                                <p>{{ cartWeight }} Gram</p>
+                            </div>
                         </div>
-                        <div class="flex justify-between">
-                            <p class="font-semibold text-gray-500">Total Berat</p>
-                            <p>{{ cartWeight }} Gram</p>
-                        </div>
+
+                        <router-link :to="{name:'checkout'}" class="w-full text-center bg-[#ff914d] font-semibold text-[11px] text-white 
+                        px-1 py-2 rounded">Pembayaran</router-link>
                     </div>
                 </div>
 
@@ -159,19 +175,19 @@ export default {
 
         const TambahQty = (itemId) => {
             const cartItem = carts.value.find(item => item.id === itemId);
-         
+
             // console.log(cartItem.product.price);
             if (cartItem) {
                 cartItem.quantity += 1;
-                
-                const price = cartItem.quantity * (cartItem.product.price - (cartItem.product.price *(cartItem.product.discount)/100));
+
+                const price = cartItem.quantity * (cartItem.product.price - (cartItem.product.price * (cartItem.product.discount) / 100));
                 const weight = cartItem.quantity * cartItem.product.weight;
 
 
                 let formData = new FormData();
                 formData.append('quantity', cartItem.quantity)
-                formData.append('price',  price)
-                formData.append('weight',  weight)
+                formData.append('price', price)
+                formData.append('weight', weight)
 
                 formData.append("_method", "POST");
 
@@ -188,13 +204,13 @@ export default {
                         store.dispatch('cart/cartWeight')
 
 
-                        toast.success("Tambah data berhasil")
+                        // toast.success("Tambah produk ke keranjang berhasil")
                     })
                     .catch((error) => {
                         //show validaation message
                         console.log(error);
 
-                       
+
                     });
             }
 
@@ -207,14 +223,14 @@ export default {
             const cartItem = carts.value.find(item => item.id === itemId);
             if (cartItem && cartItem.quantity > 1) {
                 cartItem.quantity -= 1;
-                const price = cartItem.quantity * (cartItem.product.price - (cartItem.product.price *(cartItem.product.discount)/100));
+                const price = cartItem.quantity * (cartItem.product.price - (cartItem.product.price * (cartItem.product.discount) / 100));
                 const weight = cartItem.quantity * cartItem.product.weight;
 
 
                 let formData = new FormData();
                 formData.append('quantity', cartItem.quantity)
-                formData.append('price',  price)
-                formData.append('weight',  weight)
+                formData.append('price', price)
+                formData.append('weight', weight)
 
                 formData.append("_method", "POST");
 
@@ -231,13 +247,13 @@ export default {
                         store.dispatch('cart/cartWeight')
 
 
-                        toast.success("Tambah data berhasil")
+                        // toast.success("Tambah data berhasil")
                     })
                     .catch((error) => {
                         //show validaation message
                         console.log(error);
 
-                       
+
                     });
             } else if (cartItem && cartItem.quantity === 1) {
                 // Kuantitas mencapai 0, konfirmasi penghapusan

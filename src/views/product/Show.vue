@@ -77,6 +77,8 @@
 import { computed, onMounted } from 'vue'   // computed dan onMounted
 import { useStore } from 'vuex' // store Vuex
 import { useRoute, useRouter } from 'vue-router' // vue router
+import { useToast } from "vue-toastification"
+
 
 export default {
 
@@ -86,6 +88,8 @@ export default {
 
         //vue route
         const route = useRoute()
+
+        const toast = useToast()
 
         //vue router
         const router = useRouter()
@@ -118,7 +122,23 @@ export default {
                 price: price,
                 weight: weight,
                 quantity: 1
+            }).then(() => {
+                //redirect ke dashboard
+
+                // router.push({ name: "cart" });
+                store.dispatch('cart/cartCount')  // <-- untuk memanggil action "cartCount" di module "cart"
+                store.dispatch('cart/cartTotal')  // <-- untuk memanggil action "cartTotal" di module "cart"
+                store.dispatch('cart/cartWeight')
+
+
+                toast.success("Produk berhasil ditambahkan")
             })
+                .catch((error) => {
+                    //show validaation message
+                    console.log(error);
+
+
+                });
 
         }
 

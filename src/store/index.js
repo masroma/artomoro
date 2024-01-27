@@ -6,6 +6,7 @@ import category from './module/category'
 import slider from './module/slider'
 import product from './module/product'
 import cart from './module/cart'
+import pembayaranlocal from './module/pembayaranlocal'
 //create store vuex
 export default createStore({
 
@@ -15,7 +16,8 @@ export default createStore({
         category,
         slider,
         product,
-        cart,  
+        cart, 
+        pembayaranlocal
     }
 
 })
