@@ -1,6 +1,22 @@
 <template>
-   <div class="my-10">
-    <carousel :itemsToShow="1.30" :autoplay="3000" :wrapAround="true" :transition="500">
+  <div>
+    <!-- dekstop -->
+    <div class="my-10 hidden lg:block">
+      <carousel :itemsToShow="1.30" :autoplay="3000" :wrapAround="true" :transition="500">
+          <slide v-for="(slider, id) in sliders" :key="id" >
+              <img :src="slider.image" class="w-full rounded-lg max-h-[340px] mx-3">
+          </slide>
+      
+          <template #addons>
+            <navigation />
+            <pagination />
+          </template>
+        </carousel>
+     </div>
+    <!-- desktop -->
+    <!-- mobile -->
+    <div class="container mx-auto py-2 px-2 lg:p-0 lg:hidden">
+      <carousel :itemsToShow="1" :autoplay="3000" :wrapAround="true" :transition="500">
         <slide v-for="(slider, id) in sliders" :key="id" >
             <img :src="slider.image" class="w-full rounded-lg max-h-[340px] mx-3">
         </slide>
@@ -10,7 +26,10 @@
           <pagination />
         </template>
       </carousel>
-   </div>
+    </div>
+    <!-- mobile -->
+  </div>
+  
 </template>
 
 <script>

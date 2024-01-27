@@ -1,12 +1,12 @@
 <template>
     <div class="flex flex-col gap-y-10 my-5 max-w-96 mx-auto ">
-        <div class="title mt-5">
+        <div class="title">
             <h3 class="text-lg font-bold text-gray-500">Masuk ke Akun Kamu</h3>
             <p class="text-sm text-gray-500">Yuk intip ! ada diskon loh di toko kami</p>
         </div>
 
         <div class="form flex flex-col gap-y-5">
-            <!-- <div class="login-google">
+            <div class="login-google">
                 <button
                     class="border border-blue-500 px-5 py-3 w-full rounded-md flex items-center justify-center gap-x-3 hover:shadow-md">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 128 128">
@@ -24,7 +24,7 @@
                     <p class="font-semibold text-gray-500">Masuk dengan google</p>
                 </button>
             </div>
-            <p class="font-semibold text-gray-500 text-center">Atau</p> -->
+            <p class="font-semibold text-gray-500 text-center">Atau</p>
 
             <form @submit.prevent="login" class="form-login flex flex-col gap-y-3">
                 <div class="form-label-group">

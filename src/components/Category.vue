@@ -1,25 +1,54 @@
 <template>
-    <div class="my-10 flex flex-col gap-y-10">
+    <div>
+        <!-- desktop -->
+        <div class="my-10 flex flex-col gap-y-10 hidden lg:block">
         
-        <div class="border-b-2  border-[#ff914d] w-fit pb-1">
-            <h2 class="text-xl font-semibold text-gray-500">Kategori <span class="text-[#ff914d] font-bold">Produk</span></h2>
+            <div class="border-b-2  border-[#ff914d] w-fit pb-1">
+                <h2 class="text-xl font-semibold text-gray-500">Kategori <span class="text-[#ff914d] font-bold">Produk</span></h2>
+            </div>
+            <Carousel v-bind="settings" :breakpoints="breakpoints">
+                <slide v-for="category in categories" :key="id" class="">
+                    <router-link :to="{name: 'detail_category', params:{slug: category.slug }}" class="bg-white px-5 py-5 flex flex-col gap-y-5">
+                        <img :src="category.image">
+                        <p class="text-base text-gray-500 capitalize">
+                            {{ category.name }}
+                        </p>
+                    </router-link>
+                    
+                </slide>
+    
+                <template #addons>
+                    <navigation />
+                </template>
+            </carousel>
         </div>
-        <Carousel v-bind="settings" :breakpoints="breakpoints">
-            <slide v-for="category in categories" :key="id" class="">
-                <router-link :to="{name: 'detail_category', params:{slug: category.slug }}" class="bg-white px-5 py-5 flex flex-col gap-y-5">
-                    <img :src="category.image">
-                    <p class="text-base text-gray-500 capitalize">
-                        {{ category.name }}
-                    </p>
-                </router-link>
-                
-            </slide>
+        <!-- dekstop -->
+        <!-- tablet mobile -->
+        <div class="container mx-auto py-2 px-2 lg:p-0 lg:hidden">
+            <div class="border-b-2  border-[#ff914d] w-fit pb-1">
+                <h2 class="text-sm font-semibold text-gray-500">Kategori <span class="text-[#ff914d] font-bold">Produk</span></h2>
+            </div>
 
-            <template #addons>
-                <navigation />
-            </template>
-        </carousel>
+            <Carousel v-bind="settings" :breakpoints="breakpoints">
+                <slide v-for="category in categories" :key="id" class="">
+                    <router-link :to="{name: 'detail_category', params:{slug: category.slug }}" class="bg-white px-2 py-2 flex flex-col gap-y-1">
+                        <img :src="category.image">
+                        <p class="text-[12px] text-gray-500 capitalize">
+                            {{ category.name }}
+                        </p>
+                    </router-link>
+                    
+                </slide>
+    
+                <template #addons>
+                    <navigation />
+                </template>
+            </carousel>
+
+        </div>
+        <!-- tablet mobile -->
     </div>
+   
 </template>
 
 <script>
@@ -40,7 +69,7 @@ export default {
     data: () => ({
         // carousel settings
         settings: {
-            itemsToShow: 1,
+            itemsToShow: 4.30,
             snapAlign: 'center',
         },
         // breakpoints are mobile first
@@ -48,7 +77,7 @@ export default {
         breakpoints: {
             // 700px and up
             700: {
-                itemsToShow: 3.5,
+                itemsToShow: 4.5,
                 snapAlign: 'center',
             },
             // 1024 and up

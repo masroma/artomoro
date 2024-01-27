@@ -1,10 +1,17 @@
 <template>
-    <div class="py-3">
-        <div class="max-w-6xl mx-auto flex justify-between">
+    <div v-if="$route.name !== 'login' && $route.name !== 'register'">
+         <!-- size dekstop -->
+    <div class="py-3 hidden lg:block">
+        <div class="max-w-6xl mx-auto flex justify-between ">
             <p class="text-[12px] text-gray-500 font-semibold">Pengiriman dari Gunung Sindur, Kab.Bogor</p>
 
             <div class="flex gap-x-2">
-              
+                <div class="flex gap-x-2 px-2">
+                    
+
+                    <a href="https://wa.me/6283117907091" target="_blank" class="text-[12px] text-gray-500 font-semibold">Konfirmasi Pembayaran</a>
+
+                </div>
                 <div class="flex gap-x-2 px-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                         <path fill="#ff914d"
@@ -17,78 +24,113 @@
             </div>
         </div>
     </div>
-
-    <div class="max-w-6xl mx-auto flex items-center h-24 justify-between ">
-        <router-link :to="{ name: 'home' }">
-            <img src="/logoartomoro.png" alt="" class="w-[200px] h-[60px]">
-        </router-link>
-
-
-        <div class="flex flex-col">
-            <div class="pencarian w-[500px] h-[48px] items-center bg-gray-100 rounded-md flex px-3 gap-x-2">
-                <button class="items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1024 1024">
-                        <path fill="#666"
-                            d="m795.904 750.72l124.992 124.928a32 32 0 0 1-45.248 45.248L750.656 795.904a416 416 0 1 1 45.248-45.248zM480 832a352 352 0 1 0 0-704a352 352 0 0 0 0 704" />
-                    </svg>
-                </button>
-                <input type="text" placeholder="cari produk" class="h-[44px] w-full bg-gray-100 focus:outline-none">
-            </div>
-            <div class="flex gap-x-2 py-1">
-
-                <div class="text-sm text-gray-400 font-semibold">sosis ayam</div>
-
-                <div class="text-sm text-gray-400 font-semibold">sosis sapi</div>
-
-                <div class="text-sm text-gray-400 font-semibold">ayam sekilo</div>
-
-                <div class="text-sm text-gray-400 font-semibold">dumpling</div>
-
-                <div class="text-sm text-gray-400 font-semibold">jamur enoki</div>
-
-            </div>
-        </div>
-
-
-        <div class="akundancart flex gap-x-3">
-
-
-
-            <router-link v-if="user.name" :to="{ name: 'dashboard' }"
-                class="flex gap-x-2 items-center border-r-2 border-gray-300 px-3">
-                <p class="text-base text-gray-500 ">{{ user.name }}</p>
+    <div class="hidden lg:block">
+        <div class="max-w-6xl mx-auto flex  h-24 justify-between items-center ">
+            <router-link :to="{ name: 'home' }">
+                <img src="/logoartomoro.png" alt="" class="w-[200px] h-[60px]">
             </router-link>
-
-            <router-link v-else :to="{ name: 'login' }" class="flex gap-x-2 items-center border-r-2 border-gray-300 px-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1024 1024">
-                    <path fill="#ff914d"
-                        d="M512 512a192 192 0 1 0 0-384a192 192 0 0 0 0 384m0 64a256 256 0 1 1 0-512a256 256 0 0 1 0 512m320 320v-96a96 96 0 0 0-96-96H288a96 96 0 0 0-96 96v96a32 32 0 1 1-64 0v-96a160 160 0 0 1 160-160h448a160 160 0 0 1 160 160v96a32 32 0 1 1-64 0" />
-                </svg>
-
-                <p class="text-base text-gray-500 ">Login</p>
-            </router-link>
-
-
-            <div class="flex gap-x-2 items-center  ">
-               
-
-                <router-link :to="{name: 'cart'}" v-if="cartCount != 0 && user.name" class="text-base text-gray-500 ">{{ cartCount }} | Rp. {{ moneyFormat(cartTotal) }}
+    
+    
+            <div class="flex flex-col">
+                <div class="pencarian w-[500px] h-[48px] items-center bg-gray-100 rounded-md flex px-3 gap-x-2">
+                    <button class="items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1024 1024">
+                            <path fill="#666"
+                                d="m795.904 750.72l124.992 124.928a32 32 0 0 1-45.248 45.248L750.656 795.904a416 416 0 1 1 45.248-45.248zM480 832a352 352 0 1 0 0-704a352 352 0 0 0 0 704" />
+                        </svg>
+                    </button>
+                    <input type="text" placeholder="cari produk" class="h-[44px] w-full bg-gray-100 focus:outline-none">
+                </div>
+                <div class="flex gap-x-2 py-1">
+    <!-- 
+                    <div class="text-sm text-gray-400 font-semibold">sosis ayam</div>
+    
+                    <div class="text-sm text-gray-400 font-semibold">sosis sapi</div>
+    
+                    <div class="text-sm text-gray-400 font-semibold">ayam sekilo</div>
+    
+                    <div class="text-sm text-gray-400 font-semibold">dumpling</div>
+    
+                    <div class="text-sm text-gray-400 font-semibold">jamur enoki</div> -->
+    
+                </div>
+            </div>
+    
+    
+            <div class="akundancart flex gap-x-3">
+    
+    
+    
+                <router-link v-if="user.name" :to="{ name: 'dashboard' }"
+                    class="flex gap-x-2 items-center border-r-2 border-gray-300 px-3">
+                    <p class="text-base text-gray-500 ">{{ user.name }}</p>
                 </router-link>
-                <router-link :to="{name: 'cart'}" v-else class="text-base text-gray-500 ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    
+                <router-link v-else :to="{ name: 'login' }" class="flex gap-x-2 items-center border-r-2 border-gray-300 px-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1024 1024">
                         <path fill="#ff914d"
-                            d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1m-9-1a2 2 0 0 1 4 0v1h-4Zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2Z" />
-                    </svg>    
+                            d="M512 512a192 192 0 1 0 0-384a192 192 0 0 0 0 384m0 64a256 256 0 1 1 0-512a256 256 0 0 1 0 512m320 320v-96a96 96 0 0 0-96-96H288a96 96 0 0 0-96 96v96a32 32 0 1 1-64 0v-96a160 160 0 0 1 160-160h448a160 160 0 0 1 160 160v96a32 32 0 1 1-64 0" />
+                    </svg>
+    
+                    <p class="text-base text-gray-500 ">Login</p>
                 </router-link>
+    
+    
+                <div class="flex gap-x-2 items-center  ">
+                   
+    
+                    <router-link :to="{name: 'cart'}" v-if="cartCount != 0 && user.name" class="text-base text-gray-500 ">{{ cartCount }} | Rp. {{ moneyFormat(cartTotal) }}
+                    </router-link>
+                    <router-link :to="{name: 'cart'}" v-else class="text-base text-gray-500 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="#ff914d"
+                                d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1m-9-1a2 2 0 0 1 4 0v1h-4Zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2Z" />
+                        </svg>    
+                    </router-link>
+                </div>
+    
+    
             </div>
-
-
         </div>
     </div>
+    
+    <!-- size dekstop -->
 
-    <div class="max-w-6xl mx-auto flex gap-x-2">
+    <!-- size tablet dan handphone -->
+    <div class="container mx-auto py-2 px-2 lg:p-0 lg:hidden">
+        <div class="pencarian-mobile">
+            <p class="mb-2 text-[12px] text-gray-500 font-semibold">Pengiriman dari Gunung Sindur, Kab.Bogor</p>
 
+            <div class="flex items-center">
+                <div class="pencarian w-full h-[32px] items-center bg-gray-100 rounded-md flex px-3 gap-x-2">
+                    <button class="items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 1024 1024">
+                            <path fill="#666"
+                                d="m795.904 750.72l124.992 124.928a32 32 0 0 1-45.248 45.248L750.656 795.904a416 416 0 1 1 45.248-45.248zM480 832a352 352 0 1 0 0-704a352 352 0 0 0 0 704" />
+                        </svg>
+                    </button>
+                    <input type="text" placeholder="cari produk" class="h-[32px] w-full bg-gray-100 focus:outline-none">
+                </div>
+
+                <div class="flex-1 items-end px-1 ms-3">
+                    <router-link :to="{name: 'cart'}" class="flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="#ff914d"
+                                d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1m-9-1a2 2 0 0 1 4 0v1h-4Zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2Z" />
+                        </svg>   
+                        
+                       <span v-if="cartCount != 0"> {{ cartCount }} </span>
+                    </router-link>
+                </div>
+            </div>
+        </div>
     </div>
+      
+    <!-- size tablet dan handphone -->
+    </div>
+   
+
+   
 </template>
 
 <script>
