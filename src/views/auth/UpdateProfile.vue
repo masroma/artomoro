@@ -1,5 +1,5 @@
 <template>
-    <div class="flex my-5 py-5 max-w-6xl justify-between mx-auto gap-x-5">
+    <div class="flex my-5 py-5 max-w-6xl justify-between mx-auto gap-x-5  hidden lg:block">
         <CustomerMenu class="w-36 border-r" />
 
         <div class="content flex-1">
@@ -15,20 +15,48 @@
                         <span v-if="validation.name" class="text-red-500 text-sm">{{ validation.name[0] }}</span>
                     </div>
                     <div class="flex flex-col gap-y-2">
-                        <label for="exampleInputEmail1" class="text-sm text-gray-500">Nama</label>
-                        <input v-model="user.email" type="email"  class="bg-gray-200 border-[1px] px-1 py-2 rounded">
+                        <label for="exampleInputEmail1" class="text-sm text-gray-500">Email</label>
+                        <input v-model="user.email" type="email" class="bg-gray-200 border-[1px] px-1 py-2 rounded">
                         <span v-if="validation.email" class="text-red-500 text-sm">{{ validation.email[0] }}</span>
                     </div>
-                    <button type="submit" class="bg-[#ff914d] px-5 py-2 w-fit rounded text-sm text-white font-semibold hover:shadow-md">
+                    <button type="submit"
+                        class="bg-[#ff914d] px-5 py-2 w-fit rounded text-sm text-white font-semibold hover:shadow-md">
                         Update
                     </button>
                 </form>
-                
+
             </div>
         </div>
 
 
 
+    </div>
+
+    <div class="container mx-auto py-2 px-2 lg:p-0 lg:hidden">
+        <h2 class="text-sm font-semibold text-gray-500">Update Profile
+        </h2>
+        <div class="flex gap-x-2 mb-3">
+            <router-link class="text-[11px] text-gray-500" :to="{ name: 'home' }">Home</router-link>
+            <span class="text-[11px] text-gray-500"> > </span>
+            <router-link class="text-[11px] text-[#ff914d]" :to="{ name: 'update-profile' }">Update Profile</router-link>
+        </div>
+
+        <form @submit.prevent="updateprofile" class="flex flex-col gap-y-5">
+            <div class="flex flex-col gap-y-2">
+                <label for="exampleInputEmail1" class="text-[11px] text-gray-500">Nama</label>
+                <input v-model="user.name" type="text" class="text-[11px] bg-gray-200 border-[1px] px-1 py-2 rounded">
+                <span v-if="validation.name" class="text-red-500 text-sm">{{ validation.name[0] }}</span>
+            </div>
+            <div class="flex flex-col gap-y-2">
+                <label for="exampleInputEmail1" class="text-[11px] text-gray-500">Email</label>
+                <input v-model="user.email" type="email" class="text-[11px] bg-gray-200 border-[1px] px-1 py-2 rounded">
+                <span v-if="validation.email" class="text-red-500 text-sm">{{ validation.email[0] }}</span>
+            </div>
+            <button type="submit"
+                class="text-[11px] bg-[#ff914d] px-5 py-2 w-full rounded  text-white font-semibold hover:shadow-md">
+                Update
+            </button>
+        </form>
     </div>
 </template>
 
@@ -104,7 +132,7 @@ export default {
                 })
                 .catch((error) => {
                     //show validaation message
-                   
+
                     validation.value = error;
                     // console.log(validation.value);
 

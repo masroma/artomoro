@@ -31,7 +31,8 @@
                                 {{ product.discount }} %</p>
 
                             <div class="flex justify-between px-3 my-3">
-                                <router-link :to="{name: 'detail_product', params:{slug: product.slug }}"  class="bg-[#ff914d] text-white px-2 py-1 rounded text-sm hover:shadow-lg">lihat
+                                <router-link :to="{ name: 'detail_product', params: { slug: product.slug } }"
+                                    class="bg-[#ff914d] text-white px-2 py-1 rounded text-sm hover:shadow-lg">lihat
                                     produk</router-link>
                                 <button class="hover:shadow-lg">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -71,7 +72,7 @@
                                 <div class="flex justify-between items-center px-3">
                                     <p v-if="product.discount" class="text-[10px] text-gray-500"><s>Rp. {{
                                         moneyFormat(product.price) }}</s></p>
-    
+
                                     <p class="text-[13px] font-semibold text-[#ff914d]">
                                         Rp. {{ moneyFormat(calculateDiscount(product)) }}
                                     </p>
@@ -80,12 +81,15 @@
                                     class="absolute top-[10px] right-[10px] bg-[#ff914d] font-semibold text-[10px] text-white px-1 rounded">
                                     Diskon
                                     {{ product.discount }} %</p>
-    
+
                                 <div class="flex justify-between px-3 my-3 items-center">
-                                    <router-link :to="{name: 'detail_product', params:{slug: product.slug }}"  class="text-[11px] w-full bg-[#ff914d] py-1 text-center font-semibold text-white capitalize rounded">lihat
+                                    <router-link :to="{ name: 'detail_product', params: { slug: product.slug } }"
+                                        class="text-[11px] w-full bg-[#ff914d] py-1 text-center font-semibold text-white capitalize rounded">lihat
                                         produk</router-link>
 
-                                    <button class="hover:shadow-lg ml-3">
+                                    <button
+                                        @click.prevent="addToCart(product.id, calculateDiscount(product), product.weight)"
+                                        class="hover:shadow-lg ml-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                             <path fill="#ff914d"
                                                 d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1m-9-1a2 2 0 0 1 4 0v1h-4Zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2Z" />
@@ -97,14 +101,15 @@
                     </div>
                 </div>
 
-               
+
             </div>
 
             <div v-if="nextExists" class="w-full text-center">
-                <button @click="loadMore" class="bg-[#ff914d] w-fit rounded text-[11px] px-3 py-1 text-white font-semibold">Load
+                <button @click="loadMore"
+                    class="bg-[#ff914d] w-fit rounded text-[11px] px-3 py-1 text-white font-semibold">Load
                     More</button>
             </div>
-            
+
         </div>
 
 
@@ -116,6 +121,7 @@ import SliderComponent from '../../components/Slider.vue'
 import CategoryComponent from '../../components/Category.vue'
 import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
+import { useToast } from "vue-toastification"
 
 export default {
     name: 'HomeComponent',
@@ -130,6 +136,7 @@ export default {
 
         //store vuex
         const store = useStore()
+        const toast = useToast()
 
         //onMounted akan menjalankan action "getProducts" di module "product"
         onMounted(() => {
@@ -155,12 +162,49 @@ export default {
             store.dispatch('product/getLoadMore', nextPage.value)
         }
 
+        function addToCart(product_id, price, weight) {
+
+            //check token terlebih dahulu
+            const token = store.state.auth.token
+
+            if (!token) {
+                return router.push({ name: 'login' })
+            }
+
+            //panggil action addToCart di module cart
+            store.dispatch('cart/addToCart', {
+                product_id: product_id,
+                price: price,
+                weight: weight,
+                quantity: 1
+            }).then(() => {
+                //redirect ke dashboard
+
+                // router.push({ name: "cart" });
+                store.dispatch('cart/cartCount')  // <-- untuk memanggil action "cartCount" di module "cart"
+                store.dispatch('cart/cartTotal')  // <-- untuk memanggil action "cartTotal" di module "cart"
+                store.dispatch('cart/cartWeight')
+
+
+                toast.success("Produk berhasil ditambahkan")
+            })
+                .catch((error) => {
+                    //show validaation message
+                    console.log(error);
+
+
+                });
+
+        }
+
+
         return {
             store,
             products,
             nextExists,     // <-- return nextExists,
             nextPage,       // <-- return nextPage
             loadMore,
+            addToCart
         }
 
     }

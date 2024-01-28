@@ -112,14 +112,15 @@
                     <input type="text" placeholder="cari produk" class="h-[32px] w-full bg-gray-100 focus:outline-none">
                 </div>
 
-                <div class="flex-1 items-end px-1 ms-3">
+                <div class="flex-1 items-end px-1 ms-3 relative">
                     <router-link :to="{name: 'cart'}" class="flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <path fill="#ff914d"
                                 d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1m-9-1a2 2 0 0 1 4 0v1h-4Zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2Z" />
                         </svg>   
                         
-                       <span v-if="cartCount != 0"> {{ cartCount }} </span>
+                       <span v-if="cartCount != 0"  class="absolute text-[9px] bg-[#ff914d] px-2 py-1 left-4 top-[-5px] rounded-full text-white" > {{ cartCount }} </span>
+                      
                     </router-link>
                 </div>
             </div>

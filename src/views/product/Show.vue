@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-6xl mx-auto flex flex-col gap-y-5">
+    <div class="max-w-6xl mx-auto flex flex-col gap-y-5 hidden lg:block">
         <div class="my-10">
             <!-- {{  products }} -->
             <div class="flex flex-col gap-y-10">
@@ -69,6 +69,74 @@
         </div>
 
     </div>
+
+    <div class="container mx-auto py-2 px-2 relative lg:p-0 lg:hidden">
+        <div class="flex gap-x-2">
+            <router-link class="text-[11px] text-gray-500" :to="{ name: 'home' }">Home</router-link>
+            <span class="text-[11px] text-gray-500"> > </span>
+            <router-link class="text-[11px] text-[#ff914d]"
+                :to="{ name: 'detail_product', params: { slug: products.slug } }">{{ products.title }}</router-link>
+        </div>
+
+        <img :src="products.image" class="w-1/2 mx-auto my-5" alt="">
+
+        <h5 class="text-md font-semibold text-gray-500 capitalize">
+            {{ products.title }}
+        </h5>
+        <div class="flex gap-x-3 items-center">
+
+            <p class="text-sm font-semibold text-[#ff914d]">
+                Rp. {{ moneyFormat(calculateDiscount(products)) }}
+            </p>
+
+            <p v-if="products.discount" class="text-xs text-gray-500"><s>Rp. {{
+                moneyFormat(products.price) }}</s></p>
+        </div>
+
+        <table class=" mt-5">
+            <tr>
+                <td>
+                    <p class="text-gray-500 text-sm">Diskon</p>
+                </td>
+                <td class="px-5">:</td>
+                <td>
+                    <p v-if="products.discount" class="text-center border-[1px] border-[#ff914d] font-semibold text-[#ff914d]
+                px-1 py-1 rounded">
+                        {{ products.discount }} %
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="text-gray-500 text-sm">Berat</p>
+                </td>
+                <td class="px-5">:</td>
+                <td class="px-5">
+                    <p class="text-gray-500 text-sm">{{ products.weight }} Gram</p>
+                </td>
+            </tr>
+        </table>
+
+        <h5 class="mt-5 text-sm font-semibold text-gray-500 capitalize">
+            Deskripsi Produk
+        </h5>
+
+        <div class="mt-2 text-gray-500 text-sm" v-html="products.content"></div>
+
+
+       
+                       
+
+
+    </div>
+
+    <footer class="bg-white fixed px-2 py-2  bottom-0 w-full">
+        <button @click.prevent="addToCart(products.id, calculateDiscount(products), products.weight)" class="w-full text-center py-2 bg-[#ff914d] font-semibold text-[11px]
+         text-white 
+         rounded">Beli Sekarang</button>
+    </footer>
+
+
 </template>
  
 

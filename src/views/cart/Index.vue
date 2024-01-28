@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-6xl mx-auto flex flex-col gap-y-5">
+    <div class="max-w-6xl mx-auto flex flex-col gap-y-5 hidden lg:block">
         <div class="my-10">
             <!-- {{  products }} -->
             <div class="flex flex-col gap-y-8">
@@ -12,9 +12,10 @@
                 <div class="grid grid-cols-12 gap-4" v-if="cartTotal == 0">
                     <div class="flex flex-col gap-y-5 col-span-12 items-center text-center">
                         <p class="text-lg text-gray-500">
-                            Belum Ada Produk Dikeranjang Belanja 
+                            Belum Ada Produk Dikeranjang Belanja
                         </p>
-                        <router-link :to="{name:'home'}" class="bg-orange-500 text-sm text-white px-3 py-2 rounded">Mulai Belanja</router-link>
+                        <router-link :to="{ name: 'home' }" class="bg-orange-500 text-sm text-white px-3 py-2 rounded">Mulai
+                            Belanja</router-link>
                     </div>
                 </div>
 
@@ -84,7 +85,7 @@
                             </div>
                         </div>
 
-                        <router-link :to="{name:'checkout'}" class="w-full text-center bg-[#ff914d] font-semibold text-[11px] text-white 
+                        <router-link :to="{ name: 'checkout' }" class="w-full text-center bg-[#ff914d] font-semibold text-[11px] text-white 
                         px-1 py-2 rounded">Pembayaran</router-link>
                     </div>
                 </div>
@@ -92,6 +93,86 @@
             </div>
         </div>
     </div>
+
+    <div class="container mx-auto py-2 px-2 relative lg:p-0 lg:hidden">
+        <div class="flex gap-x-2">
+            <router-link class="text-sm text-gray-500" :to="{ name: 'home' }">Home</router-link>
+            <span class="text-sm text-gray-500"> > </span>
+            <router-link class="text-sm text-[#ff914d]" :to="{ name: 'cart' }">Keranjang Belanja</router-link>
+        </div>
+
+        <div v-for="cart in carts" :key="cart.id" class="flex gap-3 my-3 shadow-md border py-3 px-3 justify-between items-center">
+            <div class="flex gap-x-3 justify-between  w-full items-center">
+                <div class="flex gap-x-2">
+                    <div class="w-12">
+                        <img :src="cart.product.image" class="w-full border-r-[1px]">
+                    </div>
+                    <div class="flex flex-col gap-y-1">
+                        <p class="capitalize text-[11px] text-gray-500 font-semibold">
+                            {{ cart.product.title }}
+                        </p>
+                        <div class="flex flex-col justify-center">
+                            <p class="text-xs text-gray-500">Qty {{ cart.quantity }} x Rp
+                                {{ moneyFormat(cart.product.price - (cart.product.price
+                                    * (cart.product.discount) / 100)) }} = Rp {{ moneyFormat((cart.product.price -
+        (cart.product.price
+            * (cart.product.discount) / 100)) * cart.quantity) }}</p>
+
+                        </div>
+                        <div class="flex gap-x-1">
+
+                            <button @click="TambahQty(cart.id)" class="bg-[#ff914d] font-semibold text-white rounded 
+                            px-1 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
+                                    viewBox="0 0 24 24">
+                                    <path fill="white"
+                                        d="M18 10h-4V6a2 2 0 0 0-4 0l.071 4H6a2 2 0 0 0 0 4l4.071-.071L10 18a2 2 0 0 0 4 0v-4.071L18 14a2 2 0 0 0 0-4" />
+                                </svg></button>
+                            <input v-model="cart.quantity" type="number" min="1"
+                                class="appearance-none text-gray-500 h-5 text-center justify-center w-8 border-2 border-gray-300 rounded text-[11px]">
+                            <button @click="KuranginQty(cart.id)" class="bg-[#ff914d] font-semibold text-white rounded 
+                        px-1 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
+                                    viewBox="0 0 24 24">
+                                    <path fill="white" d="M18 11H6a2 2 0 0 0 0 4h12a2 2 0 0 0 0-4" />
+                                </svg></button>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button @click="confirmDelete(cart.id)" class="bg-red-500 py-1 font-semibold text-white rounded 
+                px-1 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24">
+                            <path fill="white" d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-2 col-span-4 justify-between shadow-md border py-3 px-3 max-h-64">
+            <div class="flex flex-col gap-y-2">
+                <h5 class="text-gray-500 font-semibold text-[14px]">Rincian Belanja</h5>
+                <div class="flex justify-between">
+                    <p class="font-semibold text-gray-500 text-[12px]">Total Belanja</p>
+                    <p class="font-semibold text-gray-500 text-[12px]">Rp {{ moneyFormat(cartTotal) }}</p>
+                </div>
+                <div class="flex justify-between">
+                    <p class="font-semibold text-gray-500 text-[12px]">Total Berat</p>
+                    <p class="font-semibold text-gray-500 text-[12px]">{{ cartWeight }} Gram</p>
+                </div>
+            </div>
+
+          
+        </div>
+
+       
+      
+    </div>
+    <footer class="bg-white fixed px-2 py-2  bottom-0 w-full">
+        <router-link :to="{ name: 'checkout' }" class="block w-full text-center py-2 bg-[#ff914d] font-semibold text-[11px] text-white rounded">
+          Pembayaran
+        </router-link>
+      </footer>
+      
 </template>
 
 

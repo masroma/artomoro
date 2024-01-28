@@ -1,14 +1,14 @@
 <template>
-    <div class="max-w-6xl mx-auto flex flex-col gap-y-5">
+    <div class="max-w-6xl mx-auto flex flex-col gap-y-5 hidden lg:block">
         <div class="my-10">
             <!-- {{  products }} -->
             <div class="flex flex-col gap-y-8">
                 <div class="flex gap-x-2">
-                    <router-link class="text-sm text-gray-500" :to="{ name: 'home' }">Home</router-link>
-                    <span class="text-sm text-gray-500"> > </span>
-                    <router-link class="text-sm text-gray-500" :to="{ name: 'cart' }">Keranjang Belanja</router-link>
-                    <span class="text-sm text-gray-500"> > </span>
-                    <router-link class="text-sm text-[#ff914d]" :to="{ name: 'checkout' }">Pembayaran</router-link>
+                    <router-link class="text-[11px] text-gray-500" :to="{ name: 'home' }">Home</router-link>
+                    <span class="text-[11px] text-gray-500"> > </span>
+                    <router-link class="text-[11px] text-gray-500" :to="{ name: 'cart' }">Keranjang Belanja</router-link>
+                    <span class="text-[11px] text-gray-500"> > </span>
+                    <router-link class="text-[11px] text-[#ff914d]" :to="{ name: 'checkout' }">Pembayaran</router-link>
                 </div>
 
                 <div class="grid grid-cols-12 gap-4">
@@ -19,21 +19,21 @@
                                 <div class="col-span-6 my-3">
                                     <div class="flex flex-col gap-y-2
                                     ">
-                                        <label for="" class="text-sm text-gray-500 font-semibold">Nama Lengkap</label>
+                                        <label for="" class="text-[11px] text-gray-500 font-semibold">Nama Lengkap</label>
                                         <input type="text" v-model="state.name" placeholder="Nama Lengkao"
                                             class="border-[1px] w-full px-2 py-2 bg-gray-200">
-                                        <p v-if="validation.name" class="text-red-500 text-sm">{{ validation.name[0] }}</p>
+                                        <p v-if="validation.name" class="text-red-500 text-[11px]">{{ validation.name[0] }}</p>
                                     </div>
                                 </div>
                                 <div class="col-span-6 my-3">
                                     <div class="flex flex-col gap-y-2">
-                                        <label class="text-sm text-gray-500 font-semibold" for="">No Whatsapp</label>
+                                        <label class="text-[11px] text-gray-500 font-semibold" for="">No Whatsapp</label>
                                         <div class="flex items-center">
                                             <span class="bg-gray-200 p-2 border-[1px] font-semibold">62</span>
                                             <input type="number" v-model="state.phone"
                                                 placeholder="Nomor Whatsapp (62822xxxxxxxx)"
                                                 class="border-[1px] w-full px-2 py-2 bg-gray-200">
-                                            <p v-if="validation.phone" class="text-red-500 text-sm">{{ validation.phone[0]
+                                            <p v-if="validation.phone" class="text-red-500 text-[11px]">{{ validation.phone[0]
                                             }}</p>
                                         </div>
 
@@ -43,11 +43,11 @@
                                 <div class="col-span-12 my-3">
                                     <div class="flex flex-col gap-y-2
                                     ">
-                                        <label for="" class="text-sm text-gray-500 font-semibold">Alamat</label>
+                                        <label for="" class="text-[11px] text-gray-500 font-semibold">Alamat</label>
                                         <textarea class="border-[1px] w-full px-2 py-2 bg-gray-200" id="alamat" rows="3"
                                             placeholder="Alamat Lengkap&#10;&#10;Contoh: Jln Wiajaya kusuma 1 RT 03 RW 05 Pondok Miri Gunung Sindur Kabupaten Bogor 14630"
                                             v-model="state.address"></textarea>
-                                        <p v-if="validation.address" class="text-red-500 text-sm">{{ validation.address[0]
+                                        <p v-if="validation.address" class="text-red-500 text-[11px]">{{ validation.address[0]
                                         }}</p>
                                     </div>
                                 </div>
@@ -55,7 +55,7 @@
 
                                 <div class="col-span-6 my-3">
                                     <div class="flex flex-col gap-y-2">
-                                        <label class="text-sm text-gray-500 font-semibold" for="">Provinsi</label>
+                                        <label class="text-[11px] text-gray-500 font-semibold" for="">Provinsi</label>
                                         <select class="border-[1px] w-full px-2 py-2 bg-gray-200" @change="getCities"
                                             v-model="state.province_id">
                                             <option value="">-- pilih provinsi --</option>
@@ -63,14 +63,14 @@
                                                 :value="province.province_id">
                                                 {{ province.name }}</option>
                                         </select>
-                                        <p v-if="validation.province_id" class="text-red-500 text-sm">{{
+                                        <p v-if="validation.province_id" class="text-red-500 text-[11px]">{{
                                             validation.province_id[0] }}</p>
                                     </div>
                                 </div>
 
                                 <div class="col-span-6 my-3">
                                     <div class="flex flex-col gap-y-2">
-                                        <label class="text-sm text-gray-500 font-semibold" for="">Kota / Kabupaten</label>
+                                        <label class="text-[11px] text-gray-500 font-semibold" for="">Kota / Kabupaten</label>
                                         <select class="border-[1px] w-full px-2 py-2 bg-gray-200" v-model="state.city_id"
                                             @change="getCourier">
                                             <option value="">-- pilih kota --</option>
@@ -78,46 +78,46 @@
                                                 city.name }}
                                             </option>
                                         </select>
-                                        <p v-if="validation.city_id" class="text-red-500 text-sm">{{ validation.city_id[0]
+                                        <p v-if="validation.city_id" class="text-red-500 text-[11px]">{{ validation.city_id[0]
                                         }}</p>
                                     </div>
                                 </div>
 
                                 <div class="col-span-6 my-3">
                                     <div class="flex flex-col gap-y-2">
-                                        <label class="text-sm text-gray-500 font-semibold" for="">Kurir Pengiriman</label>
+                                        <label class="text-[11px] text-gray-500 font-semibold" for="">Kurir Pengiriman</label>
                                         <div class="flex gap-x-2">
                                             <input class="form-check-input select-courier" type="radio" name="courier"
                                                 id="ongkos_kirim-jne" value="jne" v-model="state.courier_type"
                                                 @change="getOngkir">
-                                            <label class="text-sm text-gray-500 font-semibold" for="ongkos_kirim-jne">
+                                            <label class="text-[11px] text-gray-500 font-semibold" for="ongkos_kirim-jne">
                                                 JNE</label>
                                             <input class="form-check-input select-courier" type="radio" name="courier"
                                                 id="ongkos_kirim-tiki" value="tiki" v-model="state.courier_type"
                                                 @change="getOngkir">
-                                            <label class="text-sm text-gray-500 font-semibold"
+                                            <label class="text-[11px] text-gray-500 font-semibold"
                                                 for="ongkos_kirim-jnt">TIKI</label>
                                             <input class="form-check-input select-courier" type="radio" name="courier"
                                                 id="ongkos_kirim-pos" value="pos" v-model="state.courier_type"
                                                 @change="getOngkir">
-                                            <label class="text-sm text-gray-500 font-semibold"
+                                            <label class="text-[11px] text-gray-500 font-semibold"
                                                 for="ongkos_kirim-jnt">POS</label>
 
                                         </div>
 
-                                        <p v-if="validation.courier_type" class="text-red-500 text-sm">{{
+                                        <p v-if="validation.courier_type" class="text-red-500 text-[11px]">{{
                                             validation.courier_type[0] }}</p>
                                     </div>
                                 </div>
 
                                 <div class="col-span-6 my-3">
                                     <div class="flex flex-col gap-y-2">
-                                        <label class="text-sm text-gray-500 font-semibold" for="">Service Kurir</label>
+                                        <label class="text-[11px] text-gray-500 font-semibold" for="">Service Kurir</label>
                                         <div v-for="value in state.costs" :key="value.service" class="flex gap-x-2">
                                             <input class="form-check-input" type="radio" name="cost" :id="value.service"
                                                 :value="value.cost[0].value + '|' + value.service"
                                                 v-model="state.costService" @change="getCostService">
-                                            <label class="text-sm text-gray-500 font-semibold" :for="value.service">
+                                            <label class="text-[11px] text-gray-500 font-semibold" :for="value.service">
                                                 {{ value.service }} - Rp. {{ moneyFormat(value.cost[0].value) }}</label>
                                         </div>
                                     </div>
@@ -129,42 +129,41 @@
                     </div>
                     <div class="flex flex-col gap-2 col-span-4 justify-between shadow-md border py-5 px-3 bg-gray-700 ">
                         <div class="flex flex-col gap-y-2">
-                            <h5 class="text-lg text-white font-semibold mb-4">Rincian Belanja</h5>
+                            <h5 class="text-lg text-gray-500 font-semibold mb-4">Rincian Belanja</h5>
                             <div class="flex justify-between">
-                                <p class="font-semibold text-white">Total Belanja</p>
-                                <p class="text-white">Rp {{ moneyFormat(cartTotal) }}</p>
+                                <p class="font-semibold text-gray-500">Total Belanja</p>
+                                <p class="text-gray-500">Rp {{ moneyFormat(cartTotal) }}</p>
                             </div>
                             <div class="flex justify-between">
-                                <p class="font-semibold text-white">Ongkos Kirim <span class="text-orange-500">({{
+                                <p class="font-semibold text-gray-500">Ongkos Kirim <span class="text-orange-500">({{
                                     cartWeight }} g)</span></p>
 
-                                <p class="m-0 text-white" id="ongkir-cart">Rp {{ moneyFormat(state.courier_cost) }}</p>
+                                <p class="m-0 text-gray-500" id="ongkir-cart">Rp {{ moneyFormat(state.courier_cost) }}</p>
                             </div>
                             <div class="w-full pt-[1px] bg-gray-300 mt-3"></div>
                             <div class="flex justify-between">
-                                <p class="font-bold text-white">Grand Total</p>
+                                <p class="font-bold text-gray-500">Grand Total</p>
 
-                                <p class="m-0 text-white font-bold">Rp {{ moneyFormat(state.grandTotal) }}</p>
+                                <p class="m-0 text-gray-500 font-bold">Rp {{ moneyFormat(state.grandTotal) }}</p>
                             </div>
 
                         </div>
 
-                        
-                       <div class="flex flex-col gap-y-2">
-                        <h5 class="text-lg text-white font-semibold mb-4">Pilih Metode Pembayaran</h5>
-                        <div v-for="m in metodepayment" :key="m.id" class="flex gap-x-2">
-                            <input class="form-check-input" type="radio"
-                                :value="m.id" v-model="state.pembayaranlocal_id"
-                              >
-                            <label class="text-sm text-white font-semibold" :for="m.ide">
-                                {{ m.nama_metode }}&nbsp;{{m.no_rekening}}&nbsp;{{m.nama_pemilik_rekening}}</label>
+
+                        <div class="flex flex-col gap-y-2">
+                            <h5 class="text-lg text-gray-500 font-semibold mb-4">Pilih Metode Pembayaran</h5>
+                            <div v-for="m in metodepayment" :key="m.id" class="flex gap-x-2">
+                                <input class="form-check-input" type="radio" :value="m.id"
+                                    v-model="state.pembayaranlocal_id">
+                                <label class="text-[11px] text-gray-500 font-semibold" :for="m.ide">
+                                    {{ m.nama_metode }}&nbsp;{{ m.no_rekening }}&nbsp;{{ m.nama_pemilik_rekening }}</label>
+                            </div>
                         </div>
-                       </div>
 
                         <div class="flex gap-x-2">
                             <router-link :to="{ name: 'cart' }" class="w-full text-center border-[1px] border-white font-semibold text-[11px] bg-white text-orange-500 
                         px-1 py-2 rounded">Kembali</router-link>
-                            <button @click.prevent="checkout" class="w-full text-center bg-[#ff914d] font-semibold text-[11px] text-white 
+                            <button @click.prevent="checkout" class="w-full text-center bg-[#ff914d] font-semibold text-[11px] text-gray-500 
                         px-1 py-2 rounded">Pembayaran</button>
                         </div>
                     </div>
@@ -173,6 +172,170 @@
             </div>
         </div>
     </div>
+
+    <div class="container mx-auto py-2 px-2 relative lg:p-0 lg:hidden pb-12">
+        <div class="flex gap-x-2">
+            <router-link class="text-[11px] text-gray-500" :to="{ name: 'home' }">Home</router-link>
+            <span class="text-[11px] text-gray-500"> > </span>
+            <router-link class="text-[11px] text-gray-500" :to="{ name: 'cart' }">Keranjang Belanja</router-link>
+            <span class="text-[11px] text-gray-500"> > </span>
+            <router-link class="text-[11px] text-[#ff914d]" :to="{ name: 'checkout' }">Pembayaran</router-link>
+        </div>
+
+        <div class="my-5">
+            <h5 class="text-[11px] text-gray-500 font-semibold">Rincian Pengiriman</h5>
+            <form>
+                <div class="grid grid-cols-12 gap-x-4 mb-4">
+                    <div class="col-span-12 mt-3">
+                        <div class="flex flex-col gap-y-2
+                    ">
+                            <label for="" class="text-[11px] text-gray-500 font-semibold">Nama Lengkap</label>
+                            <input type="text" v-model="state.name" placeholder="Nama Lengkap"
+                                class="focus:outline-none border-[1px] w-full px-2 py-2 bg-gray-200 text-[11px]">
+                            <p v-if="validation.name" class="text-red-500 text-[11px]">{{ validation.name[0] }}</p>
+                        </div>
+                    </div>
+                    <div class="col-span-12 my-2">
+                        <div class="flex flex-col gap-y-2">
+                            <label class="text-[11px] text-gray-500 font-semibold" for="">No Whatsapp</label>
+                            <div class="flex items-center">
+                                <span class="bg-gray-200 p-2 border-[1px] font-semibold text-[11px]">62</span>
+                                <input type="number" v-model="state.phone" placeholder="Nomor Whatsapp (62822xxxxxxxx)"
+                                    class="focus:outline-none border-[1px] text-[11px] w-full px-2 py-2 bg-gray-200">
+                                <p v-if="validation.phone" class="text-red-500 text-[11px]">{{ validation.phone[0]
+                                }}</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-span-12 my-2">
+                        <div class="flex flex-col gap-y-2
+                    ">
+                            <label for="" class="text-[11px] text-gray-500 font-semibold">Alamat</label>
+                            <textarea class="focus:outline-none text-[11px] border-[1px] w-full px-2 py-2 bg-gray-200"
+                                id="alamat" rows="3"
+                                placeholder="Alamat Lengkap&#10;&#10;Contoh: Jln Wiajaya kusuma 1 RT 03 RW 05 14630"
+                                v-model="state.address"></textarea>
+                            <p v-if="validation.address" class="text-red-500 text-[11px]">{{ validation.address[0]
+                            }}</p>
+                        </div>
+                    </div>
+
+
+                    <div class="col-span-12 my-2">
+                        <div class="flex flex-col gap-y-2">
+                            <label class="text-[11px] text-gray-500 font-semibold" for="">Provinsi</label>
+                            <select class="text-[11px] text-gray-500 border-[1px] w-full px-2 py-2 bg-gray-200"
+                                @change="getCities" v-model="state.province_id">
+                                <option class="text-[11px]" value="">-- pilih provinsi --</option>
+                                <option class="text-[11px]" v-for="province in state.provinces" :key="province.id"
+                                    :value="province.province_id">
+                                    {{ province.name }}</option>
+                            </select>
+                            <p v-if="validation.province_id" class="text-red-500 text-[11px]">{{
+                                validation.province_id[0] }}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-span-12 my-2">
+                        <div class="flex flex-col gap-y-2">
+                            <label class="text-[11px] text-gray-500 font-semibold" for="">Kota / Kabupaten</label>
+                            <select class="text-[11px] text-gray-500 border-[1px] w-full px-2 py-2 bg-gray-200"
+                                v-model="state.city_id" @change="getCourier">
+                                <option class="text-[11px]" value="">-- pilih kota --</option>
+                                <option class="text-[11px]" v-for="city in state.cities" :key="city.id"
+                                    :value="city.city_id">{{
+                                        city.name }}
+                                </option>
+                            </select>
+                            <p v-if="validation.city_id" class="text-red-500 text-[11px]">{{ validation.city_id[0]
+                            }}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-span-12 my-2">
+                        <div class="flex flex-col gap-y-2">
+                            <label class="text-[11px] text-gray-500 font-semibold" for="">Kurir Pengiriman</label>
+                            <div class="flex gap-x-2">
+                                <input class="form-check-input select-courier" type="radio" name="courier"
+                                    id="ongkos_kirim-jne" value="jne" v-model="state.courier_type" @change="getOngkir">
+                                <label class="text-[11px] text-gray-500 font-semibold" for="ongkos_kirim-jne">
+                                    JNE</label>
+                                <input class="form-check-input select-courier" type="radio" name="courier"
+                                    id="ongkos_kirim-tiki" value="tiki" v-model="state.courier_type" @change="getOngkir">
+                                <label class="text-[11px] text-gray-500 font-semibold" for="ongkos_kirim-jnt">TIKI</label>
+                                <input class="form-check-input select-courier" type="radio" name="courier"
+                                    id="ongkos_kirim-pos" value="pos" v-model="state.courier_type" @change="getOngkir">
+                                <label class="text-[11px] text-gray-500 font-semibold" for="ongkos_kirim-jnt">POS</label>
+
+                            </div>
+
+                            <p v-if="validation.courier_type" class="text-red-500 text-[11px]">{{
+                                validation.courier_type[0] }}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-span-12 my-2">
+                        <div class="flex flex-col gap-y-2">
+                            <label class="text-[11px] text-gray-500 font-semibold" for="">Service Kurir</label>
+                            <div v-for="value in state.costs" :key="value.service" class="flex gap-x-2">
+                                <input class="form-check-input" type="radio" name="cost" :id="value.service"
+                                    :value="value.cost[0].value + '|' + value.service" v-model="state.costService"
+                                    @change="getCostService">
+                                <label class="text-[11px] text-gray-500 font-semibold" :for="value.service">
+                                    {{ value.service }} - Rp. {{ moneyFormat(value.cost[0].value) }}</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="w-full py-[1px] bg-gray-200"></div>
+
+                <div class="flex flex-col gap-y-2">
+                    <h5 class="text-sm text-gray-500 font-semibold">Rincian Belanja</h5>
+                    <div class="flex justify-between">
+                        <p class="text-[12px] font-semibold text-gray-500">Total Belanja</p>
+                        <p class="text-[12px] text-gray-500">Rp {{ moneyFormat(cartTotal) }}</p>
+                    </div>
+                    <div class="flex justify-between">
+                        <p class="text-[12px] font-semibold text-gray-500">Ongkos Kirim <span class="text-orange-500">({{
+                            cartWeight }} g)</span></p>
+
+                        <p class="text-[12px] m-0 text-gray-500" id="ongkir-cart">Rp {{ moneyFormat(state.courier_cost) }}</p>
+                    </div>
+                    <div class="w-full pt-[1px] bg-gray-300 mt-3"></div>
+                    <div class="flex justify-between">
+                        <p class="text-[12px] font-semibold text-gray-500">Grand Total</p>
+
+                        <p class="text-[12px] m-0 text-gray-500 font-semibold">Rp {{ moneyFormat(state.grandTotal) }}</p>
+                    </div>
+
+                </div>
+
+
+                <div class="flex flex-col mt-4">
+                    <h5 class="text-sm text-gray-500 font-semibold mb-3">Pilih Metode Pembayaran</h5>
+                    <div v-for="m in metodepayment" :key="m.id" class="flex gap-x-2">
+                        <input class="form-check-input" type="radio" :value="m.id" v-model="state.pembayaranlocal_id">
+                        <label class="text-[11px] text-gray-500 font-semibold" :for="m.ide">
+                            {{ m.nama_metode }}&nbsp;{{ m.no_rekening }}&nbsp;{{ m.nama_pemilik_rekening }}</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+
+    <footer class="flex bg-white fixed px-2 py-2  bottom-0 w-full gap-x-2">
+        <router-link :to="{name:'cart'}" class="block w-full text-center py-2 border-[#ff914d] font-semibold border-[1px] text-[11px] text-[#ff914d] rounded">Kembali</router-link>
+        <button @click.prevent="checkout" class="block w-full text-center py-2 bg-[#ff914d] font-semibold text-[11px] text-white rounded">
+          Pembayaran
+        </button>
+      </footer>
 </template>
 
 
@@ -365,8 +528,8 @@ export default {
             courier_cost: 0,      // <-- state untuk menyimpan cost kurir
             courier_service: '',     // <- state untuk menyimpan service kurir        
             buttonCheckout: false,  // <-- state button checkout 
-            grandTotal: 0 ,
-            pembayaranlocal_id:''     // <-- state untuk grand total 
+            grandTotal: 0,
+            pembayaranlocal_id: ''     // <-- state untuk grand total 
         })
 
         //define state validation
@@ -374,7 +537,7 @@ export default {
             name: false, // <-- validation name
             phone: false, // <-- validation phone
             address: false, // <-- validation address 
-            pembayaranlocal_id: false 
+            pembayaranlocal_id: false
         })
 
         //mounted data provinces
@@ -490,15 +653,15 @@ export default {
                     grandTotal: state.grandTotal,
                     pembayaranlocal_id: state.pembayaranlocal_id
                 }
-                console.log('daia',data);
+                console.log('daia', data);
                 store.dispatch('cart/checkout', data)
                     .then(response => {
                         Swal.fire({
                             icon: 'success',
                             title: 'Transaksi berhasil',
-                            });
+                        });
                         //jika berhasil, arahakan ke detail order dengan parameter snap_token midtrans
-                        router.push({name: 'home'})
+                        router.push({ name: 'home' })
 
 
                     }).catch(error => {

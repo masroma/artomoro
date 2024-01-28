@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <div class="container mx-auto py-5 mt-5 lg:p-0 lg:hidden">
+    <div class="container mx-auto py-5 mt-5 lg:p-0 lg:hidden" v-if="$route.name !== 'detail_product' && $route.name !== 'cart' && $route.name !== 'checkout' &&  $route.name !== 'login' &&  $route.name !== 'register'">
         <footer class="bg-white text-gray-500 pb-1 pt-2 fixed shadow-md border  bottom-0 w-full">
             <div class="flex justify-around">
                 <router-link :to="{name:'home'}" class="flex flex-col items-center">
@@ -84,7 +84,7 @@
                 </a>
                 <router-link :to="{name:'dashboard'}" class="flex flex-col items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <g fill="none" stroke="#999999" stroke-dasharray="28" stroke-dashoffset="28" stroke-linecap="round"
+                        <g fill="none"  :stroke="$route.name == 'dashboard' ? '#ff914d' : '#999999'"  stroke-dasharray="28" stroke-dashoffset="28" stroke-linecap="round"
                             stroke-width="2">
                             <path d="M4 21V20C4 16.6863 6.68629 14 10 14H14C17.3137 14 20 16.6863 20 20V21">
                                 <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.4s" values="28;0" />
@@ -96,7 +96,7 @@
                             </path>
                         </g>
                     </svg>
-                    <p class="text-[10px] text-gray-500">Akun</p>
+                    <p :class="$route.name == 'dashboard' ? 'text-[#ff914d] text-[10px]' : 'text-[10px] text-gray-500'">Akun</p>
                 </router-link>
                
             </div>

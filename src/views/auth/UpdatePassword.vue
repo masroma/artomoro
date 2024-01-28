@@ -1,5 +1,5 @@
 <template>
-    <div class="flex my-5 py-5 max-w-6xl justify-between mx-auto gap-x-5">
+    <div class="flex my-5 py-5 max-w-6xl justify-between mx-auto gap-x-5 hidden lg:block">
         <CustomerMenu class="w-36 border-r" />
 
         <div class="content flex-1">
@@ -12,21 +12,24 @@
                     <div class="flex flex-col gap-y-2">
                         <label for="exampleInputEmail1" class="text-sm text-gray-500">Password Lama</label>
                         <div class="form-group flex items-center">
-                            <input placeholder="Password Lama" class="px-2 py-3 flex-1 focus:outline-none  bg-gray-200 border-[1px]"
-                            v-model="user.oldpassword" :type="showOldPassword ? 'text' : 'password'" >
+                            <input placeholder="Password Lama"
+                                class="px-2 py-3 flex-1 focus:outline-none  bg-gray-200 border-[1px]"
+                                v-model="user.oldpassword" :type="showOldPassword ? 'text' : 'password'">
                             <span @click="toggleOldPasswordVisibility" class="bg-gray-200 px-2 py-3" id="basic-addon2"> <i
-                                :class="showOldPassword ? 'fa fa-eye-slash text-orange-500' : 'fa fa-eye text-orange-500'"></i></span>
+                                    :class="showOldPassword ? 'fa fa-eye-slash text-orange-500' : 'fa fa-eye text-orange-500'"></i></span>
                         </div>
-                        <span v-if="validation.oldpassword" class="text-red-500 text-sm">{{ validation.oldpassword[0] }}</span>
+                        <span v-if="validation.oldpassword" class="text-red-500 text-sm">{{ validation.oldpassword[0]
+                        }}</span>
                     </div>
 
                     <div class="flex flex-col gap-y-2">
                         <label for="exampleInputEmail1" class="text-sm text-gray-500">Password Baru</label>
                         <div class="form-group flex items-center">
-                            <input placeholder="Password Baru" class="px-2 py-3 flex-1 focus:outline-none  bg-gray-200 border-[1px]"
-                            v-model="user.password" :type="showPassword ? 'text' : 'password'" >
+                            <input placeholder="Password Baru"
+                                class="px-2 py-3 flex-1 focus:outline-none  bg-gray-200 border-[1px]"
+                                v-model="user.password" :type="showPassword ? 'text' : 'password'">
                             <span @click="togglePasswordVisibility" class="bg-gray-200 px-2 py-3" id="basic-addon2"> <i
-                                :class="showPassword ? 'fa fa-eye-slash text-orange-500' : 'fa fa-eye text-orange-500'"></i></span>
+                                    :class="showPassword ? 'fa fa-eye-slash text-orange-500' : 'fa fa-eye text-orange-500'"></i></span>
                         </div>
                         <span v-if="validation.password" class="text-red-500 text-sm">{{ validation.password[0] }}</span>
                     </div>
@@ -34,22 +37,82 @@
                     <div class="flex flex-col gap-y-2">
                         <label for="exampleInputEmail1" class="text-sm text-gray-500">Konfirmasi Password</label>
                         <div class="form-group flex items-center">
-                            <input placeholder="Konfirmasi Password" class="px-2 py-3 flex-1 focus:outline-none  bg-gray-200 border-[1px]"
-                            v-model="user.password_confirmation" :type="showConfirmPassword ? 'text' : 'password'"  >
-                            <span  @click="toggleConfirmPasswordVisibility" class="bg-gray-200 px-2 py-3" id="basic-addon2"> <i
-                                :class="showConfirmPassword ? 'fa fa-eye-slash text-orange-500' : 'fa fa-eye text-orange-500'"></i></span>
+                            <input placeholder="Konfirmasi Password"
+                                class="px-2 py-3 flex-1 focus:outline-none  bg-gray-200 border-[1px]"
+                                v-model="user.password_confirmation" :type="showConfirmPassword ? 'text' : 'password'">
+                            <span @click="toggleConfirmPasswordVisibility" class="bg-gray-200 px-2 py-3" id="basic-addon2">
+                                <i
+                                    :class="showConfirmPassword ? 'fa fa-eye-slash text-orange-500' : 'fa fa-eye text-orange-500'"></i></span>
                         </div>
                         <span v-if="validation.password" class="text-red-500 text-sm">{{ validation.password[0] }}</span>
                     </div>
-                  
-                    <button type="submit" class="bg-[#ff914d] px-5 py-2 w-fit rounded text-sm text-white font-semibold hover:shadow-md">
+
+                    <button type="submit"
+                        class="bg-[#ff914d] px-5 py-2 w-fit rounded text-sm text-white font-semibold hover:shadow-md">
                         Update
                     </button>
                 </form>
-                
+
             </div>
         </div>
 
+
+
+    </div>
+
+    <div class="container mx-auto py-2 px-2 lg:p-0 lg:hidden">
+        <h2 class="text-sm font-semibold text-gray-500">Update Profile
+        </h2>
+        <div class="flex gap-x-2 mb-3">
+            <router-link class="text-[11px] text-gray-500" :to="{ name: 'home' }">Home</router-link>
+            <span class="text-[11px] text-gray-500"> > </span>
+            <router-link class="text-[11px] text-[#ff914d]" :to="{ name: 'update-profile' }">Update Profile</router-link>
+        </div>
+
+        <form @submit.prevent="updatepassword" class="flex flex-col gap-y-5">
+            <div class="flex flex-col gap-y-2">
+                <label for="exampleInputEmail1" class="text-[11px] text-gray-500">Password Lama</label>
+                <div class="form-group flex items-center">
+                    <input placeholder="Password Lama"
+                        class="text-[11px] px-2 py-[11px] flex-1 focus:outline-none  bg-gray-200 border-[1px]"
+                        v-model="user.oldpassword" :type="showOldPassword ? 'text' : 'password'">
+                    <span @click="toggleOldPasswordVisibility" class="bg-gray-200 px-2 py-2" id="basic-addon2"> <i
+                            :class="showOldPassword ? 'text-[11px] fa fa-eye-slash text-orange-500' : 'text-[11px] fa fa-eye text-orange-500'"></i></span>
+                </div>
+                <span v-if="validation.oldpassword" class="text-red-500 text-[11px]">{{ validation.oldpassword[0]
+                }}</span>
+            </div>
+
+            <div class="flex flex-col gap-y-2">
+                <label for="exampleInputEmail1" class="text-[11px] text-gray-500">Password Baru</label>
+                <div class="form-group flex items-center">
+                    <input placeholder="Password Baru"
+                        class="text-[11px] px-2 py-[11px] flex-1 focus:outline-none  bg-gray-200 border-[1px]"
+                        v-model="user.password" :type="showPassword ? 'text' : 'password'">
+                    <span @click="togglePasswordVisibility" class="bg-gray-200 px-2 py-2" id="basic-addon2"> <i
+                            :class="showPassword ? 'text-[11px] fa fa-eye-slash text-orange-500' : 'text-[11px] fa fa-eye text-orange-500'"></i></span>
+                </div>
+                <span v-if="validation.password" class="text-red-500 text-[11px]">{{ validation.password[0] }}</span>
+            </div>
+
+            <div class="flex flex-col gap-y-2">
+                <label for="exampleInputEmail1" class="text-[11px] text-gray-500">Konfirmasi Password</label>
+                <div class="form-group flex items-center">
+                    <input placeholder="Konfirmasi Password"
+                        class="text-[11px] px-2 py-[11px] flex-1 focus:outline-none  bg-gray-200 border-[1px]"
+                        v-model="user.password_confirmation" :type="showConfirmPassword ? 'text' : 'password'">
+                    <span @click="toggleConfirmPasswordVisibility" class="bg-gray-200 px-2 py-2" id="basic-addon2">
+                        <i
+                            :class="showConfirmPassword ? 'text-[11px] fa fa-eye-slash text-orange-500' : 'text-[11px] fa fa-eye text-orange-500'"></i></span>
+                </div>
+                <span v-if="validation.password" class="text-red-500 text-[11px]">{{ validation.password[0] }}</span>
+            </div>
+
+            <button type="submit"
+                class="bg-[#ff914d] px-5 py-1 w-fit rounded text-[11px] text-white font-semibold hover:shadow-md">
+                Update
+            </button>
+        </form>
 
 
     </div>
@@ -93,9 +156,9 @@ export default {
 
         //user state
         const user = reactive({
-           
+
             password: '',
-            oldpassword:'',
+            oldpassword: '',
             password_confirmation: ''
         })
 
@@ -114,7 +177,7 @@ export default {
             formData.append('oldpassword', this.user.oldpassword)
             formData.append('password', this.user.password)
             formData.append('password_confirmation', this.user.password_confirmation)
-          
+
 
             formData.append("_method", "POST");
             //panggil actions "register" dari module "auth"
@@ -132,14 +195,14 @@ export default {
                 })
                 .catch((error) => {
                     //show validaation message
-                    
+
 
                     validation.value = error.errors;
                     console.log(validation.value);
 
                     Swal.fire({
                         title: "GAGAL!",
-                        text:"Kolom wajib diisi",
+                        text: "Kolom wajib diisi",
                         icon: "error",
                         showConfirmButton: false,
                         timer: 2000,
