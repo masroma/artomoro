@@ -1,7 +1,7 @@
 <template>
   <HeaderSecond props="Keranjang Belanja" />
 
-    <div class="container max-w-xl mx-auto py-2 px-2 relative">
+    <div class="container max-w-xl mx-auto py-2 px-2 pb-20 relative">
         
 
         <div v-for="cart in carts" :key="cart.id" class="flex gap-3 my-3 shadow-md border py-3 px-3 justify-between items-center bg-white rounded-xl">
@@ -52,28 +52,14 @@
             </div>
         </div>
 
-        <div class="flex flex-col gap-2 col-span-4 justify-between shadow-md border py-3 px-3 bg-white rounded-xl">
-            <div class="flex flex-col gap-y-2">
-                <h5 class="text-gray-500 font-semibold">Rincian Belanja</h5>
-                <div class="flex justify-between">
-                    <p class="">Total Belanja</p>
-                    <p class="">Rp {{ moneyFormat(cartTotal) }}</p>
-                </div>
-                <div class="flex justify-between">
-                    <p class="">Total Berat</p>
-                    <p class="">{{ cartWeight }} Gram</p>
-                </div>
-            </div>
-
-          
-        </div>
-
-       
-      
     </div>
     <div class="bg-white fixed px-2 py-2  bottom-0 w-full">
-        <footer class="max-w-xl mx-auto">
-        <router-link :to="{ name: 'checkout' }" class="block w-full text-center py-3 bg-green-600 font-semibold  text-white rounded">
+        <footer class="max-w-xl mx-auto flex justify-between items-center">
+            <div class="flex flex-col">
+                <p class="text-sm m-0">Total</p>
+                <p class="text-lg font-bold m-0">Rp {{ moneyFormat(cartTotal) }}</p>
+            </div>
+        <router-link :to="{ name: 'checkout' }" class="block w-1/2 text-center py-3 bg-green-600 font-semibold  text-white rounded">
           Pembayaran
         </router-link>
       </footer>
