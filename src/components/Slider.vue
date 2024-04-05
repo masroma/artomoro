@@ -1,29 +1,17 @@
 <template>
   <div>
     <!-- dekstop -->
-    <div class="my-10 hidden lg:block">
-      <carousel :itemsToShow="1.30" :autoplay="3000" :wrapAround="true" :transition="500">
-          <slide v-for="(slider, id) in sliders" :key="id" >
-              <img :src="slider.image" class="w-full rounded-lg max-h-[340px] mx-3">
-          </slide>
-      
-          <template #addons>
-            <navigation />
-            <pagination />
-          </template>
-        </carousel>
-     </div>
-    <!-- desktop -->
+  
     <!-- mobile -->
-    <div class="container mx-auto py-2 px-2 lg:p-0 lg:hidden">
-      <carousel :itemsToShow="1" :autoplay="3000" :wrapAround="true" :transition="500">
+    <div class="container mx-auto py-5 px-2 mt-5">
+      <carousel :itemsToShow="1.35" :autoplay="3000" :wrapAround="true" :transition="800">
         <slide v-for="(slider, id) in sliders" :key="id" >
-            <img :src="slider.image" class="w-full rounded-lg max-h-[340px] mx-3">
+            <img :src="slider.image" class="w-full rounded-lg max-h-[340px] mx-1 shadow-lg">
         </slide>
     
         <template #addons>
-          <navigation />
-          <pagination />
+         
+       
         </template>
       </carousel>
     </div>
@@ -116,4 +104,6 @@
   opacity: 1;
   transform: rotateY(0) scale(1.1);
 }
+
+
 </style>

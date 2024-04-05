@@ -1,104 +1,67 @@
 <template>
-    <div class="max-w-6xl mx-auto">
-        <SliderComponent />
-        <CategoryComponent />
-
-        <div class="my-10 flex flex-col gap-y-10 hidden lg:block">
-            <div class="border-b-2  border-[#ff914d] w-fit pb-1">
-                <h2 class="text-xl font-semibold text-gray-500">Semua <span class="text-[#ff914d] font-bold">Produk</span>
-                </h2>
-            </div>
-
-            <div class="grid grid-cols-5 gap-x-3 ">
-                <div v-for="product in products" :key="product.id">
-                    <div class="shadow-md border relative my-3">
-                        <div class="w-full">
-                            <img :src="product.image" class="w-full">
-                        </div>
-                        <div class="flex flex-col">
-                            <p class="text-md font-bold text-gray-500 capitalize px-3">{{ product.title }}</p>
-                            <div class="flex justify-between items-center px-3">
-                                <p v-if="product.discount" class="text-sm text-gray-500"><s>Rp. {{
-                                    moneyFormat(product.price) }}</s></p>
-
-                                <p class="text-md font-semibold text-[#ff914d]">
-                                    Rp. {{ moneyFormat(calculateDiscount(product)) }}
-                                </p>
-                            </div>
-                            <p v-if="product.discount"
-                                class="absolute top-[10px] right-[10px] bg-[#ff914d] font-semibold text-[11px] text-white px-2 py-1 rounded">
-                                Diskon
-                                {{ product.discount }} %</p>
-
-                            <div class="flex justify-between px-3 my-3">
-                                <router-link :to="{ name: 'detail_product', params: { slug: product.slug } }"
-                                    class="bg-[#ff914d] text-white px-2 py-1 rounded text-sm hover:shadow-lg">lihat
-                                    produk</router-link>
-                                <button class="hover:shadow-lg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                        <path fill="#ff914d"
-                                            d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1m-9-1a2 2 0 0 1 4 0v1h-4Zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2Z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div v-if="nextExists" class="w-full text-center">
-                <button @click="loadMore" class="bg-[#ff914d] px-3 py-2 w-fit rounded text-white font-semibold">Load
-                    More</button>
-            </div>
-
+    <HeaderHome />
+    <div class="container max-w-xl mx-auto">
+        <div class="mx-3 mt-5 mb-1 ">
+            <p class="text-xl  font-semibold" v-if="user.name != ''">
+                {{ user.name }}
+            </p>
         </div>
+        <div class="flex mx-3  mb-5 bg-white shadow-md rounded-lg">
+            <input type="text" placeholder="cari produk"
+                class="flex-1  bg-white focus:outline-none py-4 px-2 rounded-lg">
+            <button class="items-center bg-green-600 px-3 rounded-tr-lg rounded-br-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 1024 1024">
+                    <path fill="#ffffff"
+                        d="m795.904 750.72l124.992 124.928a32 32 0 0 1-45.248 45.248L750.656 795.904a416 416 0 1 1 45.248-45.248zM480 832a352 352 0 1 0 0-704a352 352 0 0 0 0 704" />
+                </svg>
+            </button>
+        </div>
+        <CategoryComponent />
+        <SliderComponent />
 
-        <div class="container mx-auto py-2 px-2 lg:p-0 lg:hidden">
-            <div class="border-b-2  border-[#ff914d] w-fit pb-1">
-                <h2 class="text-sm font-semibold text-gray-500">Semua <span class="text-[#ff914d] font-bold">Produk</span>
-                </h2>
+
+
+
+        <div class="container mx-auto py-2 px-2">
+            <div class="mb-5">
+                <h2 class="text-lg font-semibold ">Produk</h2>
             </div>
 
-            <div class="grid grid-cols-12 gap-x-3 ">
+            <div class="grid grid-cols-12 gap-x-3">
 
                 <div v-for="product in products" :key="product.id" class="col-span-6">
-                    <div>
-                        <div class="shadow-md border relative my-3">
-                            <div class="w-full ">
-                                <img :src="product.image" class="w-1/2 mx-auto">
+                    <router-link :to="{ name: 'detail_product', params: { slug: product.slug } }">
+                        <div class="shadow-md border relative my-3 rounded-xl">
+                            <div class="w-full mb-5">
+                                <img :src="product.image" class="mx-auto max-h-1/2 rounded-tr-xl rounded-tl-xl">
                             </div>
-                            <div class="flex flex-col">
-                                <p class="text-[12px] font-semibold text-gray-500 capitalize px-3">{{ product.title }}</p>
-                                <div class="flex justify-between items-center px-3">
-                                    <p v-if="product.discount" class="text-[10px] text-gray-500"><s>Rp. {{
-                                        moneyFormat(product.price) }}</s></p>
+                            <div class="flex pb-5 items-center ">
+                                <div class="flex-1 flex-col">
+                                    <p class="text-lg font-semibold capitalize px-3">{{ limitCharacters(product.title, 15)
+                                        }}</p>
+                                    <div class="flex justify-between items-center px-3">
+                                        <p v-if="product.discount" class="text-[10px] text-gray-500"><s>Rp. {{
+                    moneyFormat(product.price) }}</s></p>
 
-                                    <p class="text-[13px] font-semibold text-[#ff914d]">
-                                        Rp. {{ moneyFormat(calculateDiscount(product)) }}
-                                    </p>
+                                        <p class="font-semibold">
+                                            Rp. {{ moneyFormat(calculateDiscount(product)) }}
+                                        </p>
+                                    </div>
+                                    <p v-if="product.discount"
+                                        class="absolute top-[10px] right-[10px] bg-[#ff914d] font-semibold text-[10px] text-white px-1 rounded">
+                                        Diskon
+                                        {{ product.discount }} %</p>
                                 </div>
-                                <p v-if="product.discount"
-                                    class="absolute top-[10px] right-[10px] bg-[#ff914d] font-semibold text-[10px] text-white px-1 rounded">
-                                    Diskon
-                                    {{ product.discount }} %</p>
-
-                                <div class="flex justify-between px-3 my-3 items-center">
-                                    <router-link :to="{ name: 'detail_product', params: { slug: product.slug } }"
-                                        class="text-[11px] w-full bg-[#ff914d] py-1 text-center font-semibold text-white capitalize rounded">lihat
-                                        produk</router-link>
-
-                                    <button
-                                        @click.prevent="addToCart(product.id, calculateDiscount(product), product.weight)"
-                                        class="hover:shadow-lg ml-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                            <path fill="#ff914d"
-                                                d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1m-9-1a2 2 0 0 1 4 0v1h-4Zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2Z" />
-                                        </svg>
-                                    </button>
+                                <div class="flex px-3">
+                                    <div  @click.prevent="addToCart(product.id, calculateDiscount(product), product.weight)" class="hover:cursor-pointer flex items-center rounded-full bg-green-600 px-2 py-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512"><path fill="white" d="M454.65 169.4A31.82 31.82 0 0 0 432 160h-64v-16a112 112 0 0 0-224 0v16H80a32 32 0 0 0-32 32v216c0 39 33 72 72 72h272a72.22 72.22 0 0 0 50.48-20.55a69.48 69.48 0 0 0 21.52-50.2V192a31.75 31.75 0 0 0-9.35-22.6M176 144a80 80 0 0 1 160 0v16H176Z"/></svg>  
+                                    </div>
                                 </div>
+
+                            
                             </div>
                         </div>
-                    </div>
+                    </router-link>
                 </div>
 
 
@@ -106,7 +69,7 @@
 
             <div v-if="nextExists" class="w-full text-center">
                 <button @click="loadMore"
-                    class="bg-[#ff914d] w-fit rounded text-[11px] px-3 py-1 text-white font-semibold">Load
+                    class="bg-green-600 w-fit rounded  px-3 py-3 text-white font-semibold">Load
                     More</button>
             </div>
 
@@ -114,6 +77,8 @@
 
 
     </div>
+
+    <Footer />
 </template>
 
 <script>
@@ -122,14 +87,17 @@ import CategoryComponent from '../../components/Category.vue'
 import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useToast } from "vue-toastification"
-
+import HeaderHome from '../../components/HeaderHome.vue'
+import Footer from '../../components/Footer.vue'
 export default {
     name: 'HomeComponent',
 
     components: {
         //customer menu component
         SliderComponent,
-        CategoryComponent
+        CategoryComponent,
+        HeaderHome,
+        Footer
     },
 
     setup() {
@@ -141,12 +109,28 @@ export default {
         //onMounted akan menjalankan action "getProducts" di module "product"
         onMounted(() => {
             store.dispatch('product/getProducts')
+            store.dispatch('auth/getUser')
         })
+
+        const user = computed(() => {
+            //panggil getters dengan nama "currentUser" dari module "auth"
+            return store.getters['auth/currentUser']
+        })
+
+        const limitCharacters = (text, maxLength) => {
+            if (text.length > maxLength) {
+                return text.slice(0, maxLength) + '...'; // Menambahkan ellipsis jika teks melebihi maxLength
+            } else {
+                return text;
+            }
+        };
 
         //computed properti digunakan untuk get data products dari state di module product 
         const products = computed(() => {
             return store.state.product.products
         })
+
+
 
         const nextExists = computed(() => {
             return store.state.product.nextExists
@@ -204,7 +188,9 @@ export default {
             nextExists,     // <-- return nextExists,
             nextPage,       // <-- return nextPage
             loadMore,
-            addToCart
+            addToCart,
+            user,
+            limitCharacters
         }
 
     }
