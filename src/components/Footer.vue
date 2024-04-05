@@ -1,6 +1,6 @@
 <template>
    
-    <div class="px-3 w-full mx-auto py-3 bg-white sticky bottom-0 z-50 bg-green-700" >
+    <div class="px-3 w-full mx-auto py-3 sticky bottom-0 z-50 bg-green-700" >
         <footer class="max-w-xl mx-auto">
             <div class="flex justify-between items-center">
                 <router-link :to="{name:'home'}" class="flex flex-col items-center">

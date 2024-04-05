@@ -1,136 +1,40 @@
 <template>
-    <div class="max-w-6xl mx-auto flex flex-col gap-y-5 hidden lg:block">
-        <div class="my-10">
-            <!-- {{  products }} -->
-            <div class="flex flex-col gap-y-8">
-                <div class="flex gap-x-2">
-                    <router-link class="text-sm text-gray-500" :to="{ name: 'home' }">Home</router-link>
-                    <span class="text-sm text-gray-500"> > </span>
-                    <router-link class="text-sm text-[#ff914d]" :to="{ name: 'cart' }">Keranjang Belanja</router-link>
-                </div>
+  <HeaderSecond props="Keranjang Belanja" />
 
-                <div class="grid grid-cols-12 gap-4" v-if="cartTotal == 0">
-                    <div class="flex flex-col gap-y-5 col-span-12 items-center text-center">
-                        <p class="text-lg text-gray-500">
-                            Belum Ada Produk Dikeranjang Belanja
-                        </p>
-                        <router-link :to="{ name: 'home' }" class="bg-orange-500 text-sm text-white px-3 py-2 rounded">Mulai
-                            Belanja</router-link>
-                    </div>
-                </div>
+    <div class="container max-w-xl mx-auto py-2 px-2 relative">
+        
 
-                <div class="grid grid-cols-12 gap-4" v-else>
-                    <div class="flex flex-col gap-y-2 col-span-8">
-                        <div v-for="cart in carts" :key="cart.id"
-                            class="flex gap-3 shadow-md border py-3 px-3 justify-between">
-                            <div class="flex gap-x-3">
-                                <div class="w-24">
-                                    <img :src="cart.product.image" class="w-full border-r-2">
-                                </div>
-                                <div class="flex flex-col gap-y-2">
-                                    <p class="capitalize text-md text-gray-500 font-semibold">
-                                        {{ cart.product.title }}
-                                    </p>
-                                    <div class="flex gap-x-1">
-                                        <button @click="TambahQty(cart.id)" class="bg-[#ff914d] font-semibold text-white rounded 
-                                            px-2 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="18"
-                                                height="18" viewBox="0 0 24 24">
-                                                <path fill="white"
-                                                    d="M18 10h-4V6a2 2 0 0 0-4 0l.071 4H6a2 2 0 0 0 0 4l4.071-.071L10 18a2 2 0 0 0 4 0v-4.071L18 14a2 2 0 0 0 0-4" />
-                                            </svg></button>
-                                        <input v-model="cart.quantity" type="number" min="1"
-                                            class="appearance-none text-gray-500 text-center justify-center w-14 border-2 border-gray-300 rounded">
-                                        <button @click="KuranginQty(cart.id)" class="bg-[#ff914d] font-semibold text-white rounded 
-                                        px-2 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="18"
-                                                height="18" viewBox="0 0 24 24">
-                                                <path fill="white" d="M18 11H6a2 2 0 0 0 0 4h12a2 2 0 0 0 0-4" />
-                                            </svg></button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="flex gap-x-5">
-                                <div class="flex flex-col justify-center">
-                                    <p class="text-xs text-gray-500">Qty {{ cart.quantity }} x Rp
-                                        {{ moneyFormat(cart.product.price - (cart.product.price
-                                            * (cart.product.discount) / 100)) }}</p>
-                                    <p class="text-lg text-gray-500 font-semibold">
-
-                                        Rp {{ moneyFormat((cart.product.price - (cart.product.price
-                                            * (cart.product.discount) / 100)) * cart.quantity) }}
-                                    </p>
-                                </div>
-                                <div class="flex flex-col justify-center">
-                                    <button @click="confirmDelete(cart.id)" class="bg-red-500 py-2 font-semibold text-white rounded 
-                                px-2 justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                                            <path fill="white"
-                                                d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-2 col-span-4 justify-between shadow-md border py-3 px-3 max-h-64">
-                        <div class="flex flex-col gap-y-2">
-                            <h5 class="text-gray-500 font-semibold">Rincian Belanja</h5>
-                            <div class="flex justify-between">
-                                <p class="font-semibold text-gray-500">Total Belanja</p>
-                                <p>Rp {{ moneyFormat(cartTotal) }}</p>
-                            </div>
-                            <div class="flex justify-between">
-                                <p class="font-semibold text-gray-500">Total Berat</p>
-                                <p>{{ cartWeight }} Gram</p>
-                            </div>
-                        </div>
-
-                        <router-link :to="{ name: 'checkout' }" class="w-full text-center bg-[#ff914d] font-semibold text-[11px] text-white 
-                        px-1 py-2 rounded">Pembayaran</router-link>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="container mx-auto py-2 px-2 relative lg:p-0 lg:hidden">
-        <div class="flex gap-x-2">
-            <router-link class="text-sm text-gray-500" :to="{ name: 'home' }">Home</router-link>
-            <span class="text-sm text-gray-500"> > </span>
-            <router-link class="text-sm text-[#ff914d]" :to="{ name: 'cart' }">Keranjang Belanja</router-link>
-        </div>
-
-        <div v-for="cart in carts" :key="cart.id" class="flex gap-3 my-3 shadow-md border py-3 px-3 justify-between items-center">
+        <div v-for="cart in carts" :key="cart.id" class="flex gap-3 my-3 shadow-md border py-3 px-3 justify-between items-center bg-white rounded-xl">
             <div class="flex gap-x-3 justify-between  w-full items-center">
-                <div class="flex gap-x-2">
-                    <div class="w-12">
-                        <img :src="cart.product.image" class="w-full border-r-[1px]">
+                <div class="flex gap-x-5">
+                    <div class="w-28">
+                        <img :src="cart.product.image" class="w-full border-r-[1px] rounded-xl">
                     </div>
                     <div class="flex flex-col gap-y-1">
-                        <p class="capitalize text-[11px] text-gray-500 font-semibold">
+                        <p class="capitalize  font-semibold">
                             {{ cart.product.title }}
                         </p>
                         <div class="flex flex-col justify-center">
-                            <p class="text-xs text-gray-500">Qty {{ cart.quantity }} x Rp
+                            <p class="">Qty {{ cart.quantity }} x Rp
                                 {{ moneyFormat(cart.product.price - (cart.product.price
-                                    * (cart.product.discount) / 100)) }} = Rp {{ moneyFormat((cart.product.price -
+                                    * (cart.product.discount) / 100)) }} </p>
+                                    <p class="font-semibold">Total Rp {{ moneyFormat((cart.product.price -
         (cart.product.price
             * (cart.product.discount) / 100)) * cart.quantity) }}</p>
 
                         </div>
-                        <div class="flex gap-x-1">
+                        <div class="flex py-2 bg-gray-100 px-2 items-center gap-x-1 mt-3 rounded-lg">
 
-                            <button @click="TambahQty(cart.id)" class="bg-[#ff914d] font-semibold text-white rounded 
-                            px-1 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
+                            <button @click="TambahQty(cart.id)" class="bg-green-600 font-semibold text-white rounded 
+                            px-1 py-1 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                     viewBox="0 0 24 24">
                                     <path fill="white"
                                         d="M18 10h-4V6a2 2 0 0 0-4 0l.071 4H6a2 2 0 0 0 0 4l4.071-.071L10 18a2 2 0 0 0 4 0v-4.071L18 14a2 2 0 0 0 0-4" />
                                 </svg></button>
-                            <input v-model="cart.quantity" type="number" min="1"
-                                class="appearance-none text-gray-500 h-5 text-center justify-center w-8 border-2 border-gray-300 rounded text-[11px]">
-                            <button @click="KuranginQty(cart.id)" class="bg-[#ff914d] font-semibold text-white rounded 
-                        px-1 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
+                            <input v-model="cart.quantity" type="number" 
+                                class="appearance-none bg-gray-100 py-1 text-center justify-center w-12 focus:outline-none">
+                            <button @click="KuranginQty(cart.id)" class="bg-green-600 font-semibold text-white rounded 
+                        px-1 py-1 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                     viewBox="0 0 24 24">
                                     <path fill="white" d="M18 11H6a2 2 0 0 0 0 4h12a2 2 0 0 0 0-4" />
                                 </svg></button>
@@ -140,7 +44,7 @@
                 <div>
                     <button @click="confirmDelete(cart.id)" class="bg-red-500 py-1 font-semibold text-white rounded 
                 px-1 ">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
                             <path fill="white" d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
                         </svg>
                     </button>
@@ -148,16 +52,16 @@
             </div>
         </div>
 
-        <div class="flex flex-col gap-2 col-span-4 justify-between shadow-md border py-3 px-3 max-h-64">
+        <div class="flex flex-col gap-2 col-span-4 justify-between shadow-md border py-3 px-3 bg-white rounded-xl">
             <div class="flex flex-col gap-y-2">
-                <h5 class="text-gray-500 font-semibold text-[14px]">Rincian Belanja</h5>
+                <h5 class="text-gray-500 font-semibold">Rincian Belanja</h5>
                 <div class="flex justify-between">
-                    <p class="font-semibold text-gray-500 text-[12px]">Total Belanja</p>
-                    <p class="font-semibold text-gray-500 text-[12px]">Rp {{ moneyFormat(cartTotal) }}</p>
+                    <p class="">Total Belanja</p>
+                    <p class="">Rp {{ moneyFormat(cartTotal) }}</p>
                 </div>
                 <div class="flex justify-between">
-                    <p class="font-semibold text-gray-500 text-[12px]">Total Berat</p>
-                    <p class="font-semibold text-gray-500 text-[12px]">{{ cartWeight }} Gram</p>
+                    <p class="">Total Berat</p>
+                    <p class="">{{ cartWeight }} Gram</p>
                 </div>
             </div>
 
@@ -167,11 +71,13 @@
        
       
     </div>
-    <footer class="bg-white fixed px-2 py-2  bottom-0 w-full">
-        <router-link :to="{ name: 'checkout' }" class="block w-full text-center py-2 bg-[#ff914d] font-semibold text-[11px] text-white rounded">
+    <div class="bg-white fixed px-2 py-2  bottom-0 w-full">
+        <footer class="max-w-xl mx-auto">
+        <router-link :to="{ name: 'checkout' }" class="block w-full text-center py-3 bg-green-600 font-semibold  text-white rounded">
           Pembayaran
         </router-link>
       </footer>
+      </div>
       
 </template>
 
@@ -181,10 +87,14 @@ import { onMounted, computed } from 'vue'
 import { useStore } from 'vuex' // <-- vuex
 import Swal from 'sweetalert2';
 import { useRouter } from "vue-router";
+import HeaderSecond from '../../components/HeaderSecond.vue'
 
 export default {
 
     name: 'CartComponent',
+    components:{
+        HeaderSecond
+    },
 
     setup() {
 
@@ -259,7 +169,7 @@ export default {
 
             // console.log(cartItem.product.price);
             if (cartItem) {
-                cartItem.quantity += 1;
+                cartItem.quantity = parseInt(cartItem.quantity) + 1;
 
                 const price = cartItem.quantity * (cartItem.product.price - (cartItem.product.price * (cartItem.product.discount) / 100));
                 const weight = cartItem.quantity * cartItem.product.weight;
