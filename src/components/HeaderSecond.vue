@@ -3,16 +3,16 @@
             <div class="flex justify-between items-center max-w-xl mx-auto">
                 <div class=" items-end px-1 ms-3 relative bg-gray-100 py-2 px-2 rounded-full">
                     
-                    <router-link :to="{name: 'home'}" class="flex">
+                    <router-link :to="{name: link ?? 'home'}" class="flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="m7.825 13l5.6 5.6L12 20l-8-8l8-8l1.425 1.4l-5.6 5.6H20v2z"/></svg> 
                     </router-link>
                 </div>
 
                 <p class="text-base font-semibold justify-center capitalize">
-                    {{ props.name ? props.name : props.title ? props.title : props }}
+                 {{ props.name ? props.name : props.title ? props.title : props }}
                 </p>
 
-                <div class=" items-end px-1 ms-3 relative bg-green-600 py-2 px-2 rounded-full">
+                <div class=" items-end px-1 ms-3 relative bg-green-700 py-2 px-2 rounded-full">
                     
                     <router-link :to="{name: 'cart'}" class="flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><path fill="white" d="M454.65 169.4A31.82 31.82 0 0 0 432 160h-64v-16a112 112 0 0 0-224 0v16H80a32 32 0 0 0-32 32v216c0 39 33 72 72 72h272a72.22 72.22 0 0 0 50.48-20.55a69.48 69.48 0 0 0 21.52-50.2V192a31.75 31.75 0 0 0-9.35-22.6M176 144a80 80 0 0 1 160 0v16H176Z"/></svg>  
@@ -33,7 +33,7 @@ import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 export default {
     name: 'HeaderComponent',
-    props: ['props'],
+    props: ['props','link'],
 
     setup() {
 

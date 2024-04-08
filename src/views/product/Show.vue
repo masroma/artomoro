@@ -47,21 +47,17 @@
 
         <div class="mt-2" v-html="products.content"></div>
 
-
-
-
-
-
     </div>
 
     <div class="px-3 w-full mx-auto py-3 sticky bottom-0 z-50 bg-white">
         <footer class="max-w-xl mx-auto">
-            <button @click.prevent="addToCart(products.id, calculateDiscount(products), products.weight)" class="w-full text-center py-3 bg-green-600 font-semibold 
+            <button @click.prevent="addToCart(products.id, calculateDiscount(products), products.weight)" class="w-full text-center py-3 bg-green-700 font-semibold 
          text-white 
          rounded">Beli Sekarang</button>
         </footer>
     </div>
 
+    
 
 </template>
 
@@ -98,6 +94,8 @@ export default {
         //onMounted akan menjalankan action "getDetailProduct" di module "product" Vuex
         onMounted(() => {
             store.dispatch('product/getDetailProduct', route.params.slug)
+            store.dispatch('auth/getUser')
+            store.dispatch['auth/isLoggedIn']
         })
 
         //computed properti digunakan untuk mendapatkan data detail product dari state "product" di module "product" Vuex 
@@ -105,13 +103,27 @@ export default {
             return store.state.product.product
         })
 
+        const user = computed(() => {
+            //panggil getters dengan nama "currentUser" dari module "auth"
+            return store.getters['auth/currentUser']
+        })
+
+        const isLoggedIn = computed(() => {
+
+            //get getter "isLoggedIn" dari module "auth"
+            return store.getters['auth/isLoggedIn']
+
+        })
+
         function addToCart(product_id, price, weight) {
 
-            //check token terlebih dahulu
-            const token = store.state.auth.token
-
-            if (!token) {
-                return router.push({ name: 'login' })
+            // console.log('user', this.user.name);
+            // console.log('islogin', this.isLoggedIn);
+            // //check token terlebih dahulu
+            // const token = store.state.auth.token
+            // console.log('token',token)
+            if (!this.isLoggedIn) { // Perhatikan penggunaan '!isLoggedIn' untuk memeriksa apakah 'isLoggedIn' tidak bernilai 'true'
+                return router.push({ name: 'login' });
             }
 
             //panggil action addToCart di module cart
@@ -142,10 +154,12 @@ export default {
 
         return {
             addToCart,
+            user,
             route,
             router,
             store,
             products,
+            isLoggedIn
         }
 
     }

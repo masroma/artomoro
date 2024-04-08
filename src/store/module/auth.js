@@ -11,9 +11,10 @@ const auth = {
 
         //state untuk token, pakai localStorage, untuk menyimpan informasi tentang token JWT
         token: localStorage.getItem('token') || '',
-
+       
         //state user, pakai localStorage, untuk menyimpan data user yang sedang login
         user: JSON.parse(localStorage.getItem('user')) || {},
+       
 
     },
 
@@ -35,6 +36,11 @@ const auth = {
         AUTH_LOGOUT(state) {
             state.token = '' // <-- set state token ke empty
             state.user = {} // <-- set state user ke empty array
+        },
+
+        REFRESH_TOKEN(state, token, user) {
+            state.token = token // <-- assign state token dengan response token
+            state.user = user // <-- assign state user dengan response data user
         }
 
     },
@@ -135,6 +141,8 @@ const auth = {
                         //commit auth success ke mutation
                         commit('AUTH_SUCCESS', token, user)
 
+                        commit('REFRESH_TOKEN', token, user)
+
                         //commit get user ke mutation
                         commit('GET_USER', user)
 
@@ -166,6 +174,54 @@ const auth = {
 
                     //commit ke mutatuin GET_USER dengan hasil response
                     commit('GET_USER', response.data.user)
+
+                })
+        },
+
+        refreshToken({ commit }) {
+
+            //ambil data token dari localStorage
+            const token = localStorage.getItem('token')
+
+            Api.defaults.headers.common['Authorization'] = "Bearer " + token
+            Api.get('/refreshtoken')
+                .then(response => {
+                   
+                    const token = response.data.token
+                    const user = response.data.user
+                    //commit ke mutatuin GET_USER dengan hasil response
+                    localStorage.setItem('token', token)
+                    localStorage.setItem('user', JSON.stringify(user))
+
+                    //set default header axios dengan token
+                    Api.defaults.headers.common['Authorization'] = "Bearer " + token
+
+                    //commit auth success ke mutation
+                    commit('AUTH_SUCCESS', token, user)
+
+                    //commit get user ke mutation
+                    commit('GET_USER', user)
+
+                     //get dat cart
+                     Api.get('/cart')
+                     .then(response => {
+
+                         //commit mutation GET_CART
+                         commit('cart/GET_CART', response.data.cart, { root: true }) // <-- kita tambahkan root menjadi true, karena beda modulue
+
+                     })
+
+                 //get total cart
+                 Api.get('/cart/total')
+                     .then(response => {
+
+                         //commit mutation TOTAL_CART
+                         commit('cart/TOTAL_CART', response.data.total, { root: true }) // <-- kita tambahkan root menjadi true, karena beda modulue
+
+                     })
+
+                 //resolve ke component dengan hasil response
+                 resolve(response)
 
                 })
         },
@@ -275,6 +331,7 @@ const auth = {
             return state.token // return dengan data token
         },
 
+       
     }
 
 }

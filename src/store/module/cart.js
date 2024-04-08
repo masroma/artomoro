@@ -62,11 +62,11 @@ const cart = {
                 customer_id: user.id
             })
                 .then(() => {
-
+                    
                     //get dat cart
                     Api.get('/cart')
                         .then(response => {
-
+                           
                             //commit mutation GET_CART
                             commit('GET_CART', response.data.cart)
 
@@ -80,6 +80,8 @@ const cart = {
                             commit('TOTAL_CART', response.data.total)
 
                         })
+
+
 
                 })
         },
@@ -298,6 +300,8 @@ const cart = {
         cartTotal(state) {
             return state.cartTotal
         }
+
+        
 
     }
 

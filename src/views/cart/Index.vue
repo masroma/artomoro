@@ -25,7 +25,7 @@
                         </div>
                         <div class="flex py-2 bg-gray-100 px-2 items-center gap-x-1 mt-3 rounded-lg">
 
-                            <button @click="TambahQty(cart.id)" class="bg-green-600 font-semibold text-white rounded 
+                            <button @click="TambahQty(cart.id)" class="bg-green-700 font-semibold text-white rounded 
                             px-1 py-1 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                     viewBox="0 0 24 24">
                                     <path fill="white"
@@ -33,7 +33,7 @@
                                 </svg></button>
                             <input v-model="cart.quantity" type="number" 
                                 class="appearance-none bg-gray-100 py-1 text-center justify-center w-12 focus:outline-none">
-                            <button @click="KuranginQty(cart.id)" class="bg-green-600 font-semibold text-white rounded 
+                            <button @click="KuranginQty(cart.id)" class="bg-green-700 font-semibold text-white rounded 
                         px-1 py-1 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                     viewBox="0 0 24 24">
                                     <path fill="white" d="M18 11H6a2 2 0 0 0 0 4h12a2 2 0 0 0 0-4" />
@@ -59,7 +59,7 @@
                 <p class="text-sm m-0">Total</p>
                 <p class="text-lg font-bold m-0">Rp {{ moneyFormat(cartTotal) }}</p>
             </div>
-        <router-link :to="{ name: 'checkout' }" class="block w-1/2 text-center py-3 bg-green-600 font-semibold  text-white rounded">
+        <router-link :to="{ name: 'checkout' }" class="block w-1/2 text-center py-3 bg-green-700 font-semibold  text-white rounded">
           Pembayaran
         </router-link>
       </footer>

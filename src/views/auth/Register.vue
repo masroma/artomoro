@@ -2,7 +2,7 @@
 
 
     <div class="container max-w-xl mx-auto h-screen">
-        <div class="h-1/2 bg-green-600 pt-16 text-center">
+        <div class="h-1/2 bg-green-700 pt-16 text-center">
             <p class="font-semibold text-white text-3xl">Buat Akun</p>
             <p class="text-white text-lg">Masukan data kamu dibawah ini</p>
         </div>
@@ -92,7 +92,7 @@
                     </div>
                 </div>
 
-                <button class="bg-green-600 hover:bg-green-500 px-5 py-3 w-full rounded-md  hover:shadow-md">
+                <button class="bg-green-700 hover:bg-green-500 px-5 py-3 w-full rounded-md  hover:shadow-md">
 
                     <p v-if="!loading" class=" font-semibold text-white">Daftar</p>
                     <p v-else class=" font-semibold text-white">Loading ...</p>
