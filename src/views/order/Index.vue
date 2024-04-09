@@ -22,7 +22,7 @@
                     {{ order.status === 'success' ? 'bg-green-100 text-green-500' : '' }}
                     {{ order.status === 'failed' ? 'bg-red-100 text-red-500' : '' }}
                     {{ order.status === 'expired' ? 'bg-black text-white' : '' }}">
-                        {{ order.status }}
+                     Pembayaran   {{ order.status }} / COD
                     </p>
                 </div>
                 <div class="flex justify-between items-center">

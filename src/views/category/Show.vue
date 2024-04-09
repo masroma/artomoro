@@ -12,17 +12,17 @@
             </button>
         </div>
         <div class="grid grid-cols-12 gap-x-3 pb-20">
-            <div v-for="product in products" :key="product.id" class="col-span-6">
+            <div v-for="product in products" :key="product.id" class="col-span-6 lg:col-span-4 xl:col-span-4 md:col-span-6 sm:col-span-6">
                 <router-link :to="{ name: 'detail_product', params: { slug: product.slug } }">
                         <div class="shadow-md border relative my-3 rounded-xl">
                             <div class="w-full mb-5">
                                 <img :src="product.image" class="mx-auto max-h-1/2 rounded-tr-xl rounded-tl-xl">
                             </div>
-                            <div class="flex pb-5 items-center ">
-                                <div class="flex-1 flex-col">
-                                    <p class="text-lg font-semibold capitalize px-3">{{ limitCharacters(product.title, 15)
+                            <div class="pb-5 items-center ">
+                                <div class="flex-col">
+                                    <p class="text-sm font-semibold capitalize px-1">{{ limitCharacters(product.title, 15)
                                         }}</p>
-                                    <div class="flex justify-between items-center px-3">
+                                    <div class="flex justify-between items-center px-1">
                                         <p v-if="product.discount" class="text-[10px] text-gray-500"><s>Rp. {{
                     moneyFormat(product.price) }}</s></p>
 
@@ -35,9 +35,10 @@
                                         Diskon
                                         {{ product.discount }} %</p>
                                 </div>
-                                <div class="flex px-3">
-                                    <div  @click.prevent="addToCart(product.id, calculateDiscount(product), product.weight)" class="hover:cursor-pointer flex items-center rounded-full bg-green-700 px-2 py-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512"><path fill="white" d="M454.65 169.4A31.82 31.82 0 0 0 432 160h-64v-16a112 112 0 0 0-224 0v16H80a32 32 0 0 0-32 32v216c0 39 33 72 72 72h272a72.22 72.22 0 0 0 50.48-20.55a69.48 69.48 0 0 0 21.52-50.2V192a31.75 31.75 0 0 0-9.35-22.6M176 144a80 80 0 0 1 160 0v16H176Z"/></svg>  
+                                <div class="mt-2 mx-2">
+                                    <div  @click.prevent="addToCart(product.id, calculateDiscount(product), product.weight)" class="hover:cursor-pointer flex items-center rounded-lg bg-green-700 px-2 py-2 gap-x-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 512 512"><path fill="white" d="M454.65 169.4A31.82 31.82 0 0 0 432 160h-64v-16a112 112 0 0 0-224 0v16H80a32 32 0 0 0-32 32v216c0 39 33 72 72 72h272a72.22 72.22 0 0 0 50.48-20.55a69.48 69.48 0 0 0 21.52-50.2V192a31.75 31.75 0 0 0-9.35-22.6M176 144a80 80 0 0 1 160 0v16H176Z"/></svg>  
+                                        <p class="text-white text-sm font-semibold">Tambah</p>
                                     </div>
                                 </div>
 

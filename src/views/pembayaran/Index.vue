@@ -38,7 +38,7 @@
                             <label for="" class=" text-gray-500 font-semibold">Alamat</label>
                             <textarea class="focus:outline-none  border-[1px] w-full px-2 py-2 bg-white" id="alamat"
                                 rows="3"
-                                placeholder="Alamat Lengkap&#10;&#10;Contoh: Jln Wiajaya kusuma 1 RT 03 RW 05 14630"
+                                placeholder="Contoh: Jln Wiajaya kusuma 1 RT 03 RW 05 14630"
                                 v-model="state.address"></textarea>
                             <p v-if="validation.address" class="text-red-500 ">{{ validation.address[0]
                                 }}</p>
@@ -76,7 +76,7 @@
                         </div>
                     </div>
 
-                    <div class="col-span-12 my-2">
+                    <!-- <div class="col-span-12 my-2">
                         <div class="flex flex-col gap-y-2">
                             <label class=" text-gray-500 font-semibold" for="">Kurir Pengiriman</label>
                             <div class="flex gap-x-2">
@@ -97,9 +97,9 @@
                             <p v-if="validation.courier_type" class="text-red-500 ">{{
                                 validation.courier_type[0] }}</p>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="col-span-12 my-2">
+                    <!-- <div class="col-span-12 my-2">
                         <div class="flex flex-col gap-y-2">
                             <label class=" text-gray-500 font-semibold" for="">Service Kurir</label>
                             <div v-for="value in state.costs" :key="value.service" class="flex gap-x-2">
@@ -110,43 +110,44 @@
                                     {{ value.service }} - Rp. {{ moneyFormat(value.cost[0].value) }}</label>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
 
                 </div>
 
 
 
-                <div class="flex flex-col gap-y-2 ">
+                <div class="flex flex-col gap-y-2 pb-20">
                     <h5 class="text-sm text-gray-500 font-semibold">Rincian Belanja</h5>
                     <div class="flex justify-between">
                         <p class=" font-semibold text-gray-500">Total Belanja</p>
                         <p class=" text-gray-500">Rp {{ moneyFormat(cartTotal) }}</p>
                     </div>
-                    <div class="flex justify-between">
+                    <p class="text-green-700 italic px-2 py-2 bg-gray-100">Harga ongkos kirim akan di infokan oleh cs, pastikan nomor whatsapp benar dan terdaftar agar segera dihubungi cs artomoro</p>
+                    <p class="text-sm font-bold">*Gratis ongkir untuk wilayah pamulang, serpong dan gunung sindur</p>
+                    <!-- <div class="flex justify-between">
                         <p class=" font-semibold text-gray-500">Ongkos Kirim <span class="text-green-600">({{
                                 cartWeight }} g)</span></p>
 
                         <p class=" m-0 text-gray-500" id="ongkir-cart">Rp {{ moneyFormat(state.courier_cost) }}</p>
-                    </div>
-                    <div class="w-full pt-[1px] bg-gray-300 mt-3"></div>
-                    <div class="flex justify-between">
+                    </div> -->
+                    <!-- <div class="w-full pt-[1px] bg-gray-300 mt-3"></div> -->
+                    <!-- <div class="flex justify-between">
                         <p class=" font-semibold text-gray-500">Grand Total</p>
 
                         <p class=" m-0 text-gray-500 font-semibold">Rp {{ moneyFormat(state.grandTotal) }}</p>
-                    </div>
+                    </div> -->
+                  
 
                 </div>
-
-
-                <div class="flex flex-col mt-4 mb-20">
+                <!-- <div class="flex flex-col mt-4 mb-20">
                     <h5 class="text-sm text-gray-500 font-semibold mb-3">Pilih Metode Pembayaran</h5>
                     <div v-for="m in metodepayment" :key="m.id" class="flex gap-x-2">
                         <input class="form-check-input" type="radio" :value="m.id" v-model="state.pembayaranlocal_id">
                         <label class=" text-gray-500 font-semibold" :for="m.ide">
                             {{ m.nama_metode }}&nbsp;{{ m.no_rekening }}&nbsp;{{ m.nama_pemilik_rekening }}</label>
                     </div>
-                </div>
+                </div> -->
             </form>
         </div>
 
@@ -370,7 +371,7 @@ export default {
             courier_cost: 0,      // <-- state untuk menyimpan cost kurir
             courier_service: '',     // <- state untuk menyimpan service kurir        
             buttonCheckout: false,  // <-- state button checkout 
-            grandTotal: 0,
+            grandTotal: cartTotal,
             pembayaranlocal_id: ''     // <-- state untuk grand total 
         })
 
@@ -467,7 +468,9 @@ export default {
                 .then(response => {
 
                     //jumlahkan total cart dan cost pengiriman
-                    state.grandTotal = parseInt(response.data.total) + parseInt(state.courier_cost)
+                    state.grandTotal = parseInt(response.data.total)
+
+                    // state.grandTotal = parseInt(response.data.total) + parseInt(state.courier_cost)
 
                 })
 
@@ -497,9 +500,9 @@ export default {
                     phone: state.phone,
                     province_id: state.province_id,
                     city_id: state.city_id,
-                    courier_type: state.courier_type,
-                    courier_service: state.courier_service,
-                    courier_cost: state.courier_cost,
+                    courier_type: 'COD',
+                    courier_service: 'KURIR TOKO',
+                    courier_cost: 0,
                     weight: cartWeight.value,
                     address: state.address,
                     grandTotal: state.grandTotal,
