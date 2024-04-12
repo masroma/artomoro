@@ -11,6 +11,7 @@ const product = {
     
         //index products
         products: [],
+        searchproduct :[],
         product: {},
         nextExists: false,
         nextPage: 0,
@@ -23,6 +24,10 @@ const product = {
         //set state products dengan data dari response 
         GET_PRODUCTS(state, products) {
             state.products = products
+        },
+
+        SET_PRODUCTS(state, searchproduct) {
+            state.searchproduct = searchproduct
         },
 
         SET_NEXTEXISTS(state, nextExists) {
@@ -49,10 +54,11 @@ const product = {
     //actions
     actions: {
 
-        getProducts({ commit }) {
-
+        getProducts({ commit }, payload) {
+           
+            let pencarian = payload ?? ''
             //get data campaign ke server
-            Api.get('/products')
+            Api.get(`/products?q=${pencarian}`)
             .then(response => {
 
                 //commit ke mutation SET_CAMPAIGNS dengan response data
@@ -79,6 +85,30 @@ const product = {
 
             })
         },
+
+        searchProducts({ commit }, querySearch='') {
+
+            //get data token dan user
+            const token = localStorage.getItem('token')
+
+            //set axios header dengan type Authorization + Bearer token
+            Api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+            //get data campaign ke server
+            Api.get(`/products?q=${querySearch}`)
+            .then(response => {
+                console.log('data',response.data.products.data)
+                //commit ke mutation SET_CAMPAIGNS dengan response data
+                commit('SET_PRODUCTS', response.data.products.data)
+
+            }).catch(error => {
+
+                //show error log dari response
+                console.log(error)
+
+            })
+        },
+
 
         getLoadMore({ commit }, nextPage) {
 
@@ -137,7 +167,9 @@ const product = {
 
     //getters
     getters: {
-
+        getData(state) {
+            return state.products
+        },
     }
 
 }

@@ -7,7 +7,7 @@
             </p>
         </div>
         <div class="flex mx-3  mb-5 bg-white shadow-md rounded-lg">
-            <input type="text" placeholder="cari produk"
+            <input type="text" placeholder="cari produk" @click="linkToSearch"
                 class="flex-1  bg-white focus:outline-none py-4 px-2 rounded-lg">
             <button class="items-center bg-green-700 px-3 rounded-tr-lg rounded-br-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 1024 1024">
@@ -133,6 +133,12 @@ export default {
             store.dispatch['auth/refreshToken']
         })
 
+        function linkToSearch() {
+        router.push({
+          name: 'pencarian'
+        })
+      }
+
         const user = computed(() => {
             //panggil getters dengan nama "currentUser" dari module "auth"
             return store.getters['auth/currentUser']
@@ -236,7 +242,8 @@ export default {
             user,
             limitCharacters,
             isLoggedIn,
-            refreshtoken
+            refreshtoken,
+            linkToSearch
         }
 
     }

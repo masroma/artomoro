@@ -89,6 +89,13 @@ const routes = [
       },
 
       {
+        path: '/pencarian',
+        name: 'pencarian',
+        component: () => import(/* webpackChunkName: "cart" */ '../views/pencarian/index.vue'),
+        
+      },
+
+      {
         path: '/update-profile',
         name: 'update-profile',
         component: () => import( /* webpackChunkName: "login" */ '../views/auth/UpdateProfile.vue'),
